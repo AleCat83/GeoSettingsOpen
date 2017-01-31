@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/time_band_list_container">
+        <TextView
+            style="@style/title_text_view"
+            android:text="@string/area_time_band_title"/>
+        <ListView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_conditions_list"
+            android:paddingBottom="50dp">
+        </ListView>
+        <TextView
+            style="@style/general_text_view"
+            android:id="@+id/empty_list_item"
+            android:visibility="gone"
+            android:text="@string/area_no_time_band_specified" >
+        </TextView>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_time_condition"
+        style="@style/floating_action_button"
+        android:clickable="true"
+        app:fabSize="mini"
+        android:src="@drawable/ic_plus_white"
+        app:layout_anchor="@id/time_band_list_container"
+
+        />
+
+</android.support.design.widget.CoordinatorLayout>

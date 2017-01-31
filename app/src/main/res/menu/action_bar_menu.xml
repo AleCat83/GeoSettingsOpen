@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/general_action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mainswitch"
+        android:orderInCategory="300"
+        android:title=""
+        app:actionLayout="@layout/mainswitch"
+        app:showAsAction="always"></item>
+
+</menu>
+

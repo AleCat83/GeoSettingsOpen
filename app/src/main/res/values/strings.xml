@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+
+    <string name="app_name">GeoSettingsOpen</string>
+    <string name="general_ok">ok</string>
+    <string name="general_yes">yes</string>
+    <string name="general_no">no</string>
+    <string name="general_action_settings">Options</string>
+    <string name="general_cancel">cancel</string>
+    <string name="general_saved">Saved</string>
+    <string name="general_enable">Enable</string>
+    <string name="general_disable">Disable</string>
+    <string name="general_enabled">on</string>
+    <string name="general_disabled">off</string>
+    <string name="general_are_you_sure">Are you sure?</string>
+    <string name="general_error_occurs">Error</string>
+    <string name="general_hide">Hide</string>
+
+    <string name="days_monday">mon</string>
+    <string name="days_sunday">sun</string>
+    <string name="days_saturday">sat</string>
+    <string name="days_friday">fri</string>
+    <string name="days_thursday">thu</string>
+    <string name="days_wednesday">wed</string>
+    <string name="days_tuesday">tue</string>
+
+    <!-- profiles -->
+
+    <string name="profile_profile_label">Profile</string>
+    <string name="profile_new_profile">New profile</string>
+    <string name="profile_external_profile_name">External profile</string>
+    <string name="profile_profile_name">Profile name</string>
+    <string name="profile_profile_active">Active</string>
+    <string name="profile_profile_activate">Enable</string>
+    <string name="profile_profile_deactivate">Disable</string>
+    <string name="profile_delete_profile_message">The profile and all associated areas will be deleted</string>
+
+    <!-- profiles labels-->
+
+    <string name="profile_tabs_label_nets">Nets</string>
+    <string name="profile_tabs_label_sounds">Sounds</string>
+    <string name="profile_tabs_label_time_activation">Times</string>
+    <string name="profile_tabs_label_area_activation">Areas</string>
+    <string name="profile_tabs_label_display">Display</string>
+
+    <string name="profile_options_label_brightness">Brightness</string>
+    <string name="profile_options_label_wifi">Wifi</string>
+    <string name="profile_options_label_bluetooth">Bluetooth</string>
+    <string name="profile_options_label_soundprofile">Sound profile</string>
+    <string name="profile_options_label_sounds_ringtone_volumes">Volumes</string>
+    <string name="profile_options_label_ringtone_uri">Ringtones</string>
+    <string name="profile_options_label_notifications_uri">Notification sound</string>
+
+    <string name="profile_options_label_automatic_screen_rotation">Screen rotation</string>
+    <string name="profile_options_label_screen_timeout">Screen timeout</string>
+
+    <!-- profiles descriptions-->
+
+    <string name="profile_options_description_notifications_uri">Change sound</string>
+    <string name="profile_options_description_ringtones_volume">Ringtones</string>
+    <string name="profile_options_description_notifications_volume">Notification</string>
+    <string name="profile_options_description_medias_volume">Media</string>
+    <string name="profile_options_description_feedback_volume">Feedback sound</string>
+    <string name="profile_options_description_ringtone_uri">Change notification</string>
+    <string name="profile_options_description_soundprofile">Change profile</string>
+    <string name="profile_options_description_wifi">WIFI activation</string>
+    <string name="profile_options_description_bluetooth">Bluetooth activation</string>
+    <string name="profile_options_description_brightness_level">Set the screen brightness</string>
+    <string name="profile_options_description_brightness_automatic">Automatic brightness:</string>
+    <string name="profile_options_description_volumes">Set volumes</string>
+    <string name="profile_options_description_brightness">Set brightness</string>
+    <string name="profile_options_description_screen_timeout">Screen timeout</string>
+    <string name="profile_options_description_automatic_screen_rotation">Screen rotation</string>
+    <string name="profile_options_description_alarm_volume">Alarm</string>
+
+    <!-- profiles values -->
+
+    <string name="profile_options_values_sound">sound</string>
+    <string name="profile_options_values_vibration">vibration</string>
+    <string name="profile_options_values_not_disturb">do not disturb</string>
+    <string name="profile_options_values_ringtones">ringtones</string>
+    <string name="profile_options_values_notifications">notifications</string>
+    <string name="profile_options_values_alarm">alarm</string>
+    <string name="profile_options_values_media">media</string>
+    <string name="profile_options_values_feedback">feedback</string>
+    <string name="profile_options_values_automatic">Auto</string>
+    <string name="profile_options_values_always_on">Always on</string>
+
+    <!-- profiles tips -->
+
+    <string name="profile_tips_ringtone">Choose a ringtone</string>
+    <string name="profile_tips_profile_off">The profile is off</string>
+    <string name="profile_tips_profile_do_nothing">No action</string>
+    <string name="profile_tips_no_areas">No areas</string>
+    <string name="profile_tips_profile_activabile">Activable</string>
+    <string name="profile_tips_airplane_mode_enabled">Airplane mode is on, this will prevent GeoSettings to change profile.</string>
+    <string name="profile_tips_system_active">GeoSettings is active</string>
+    <string name="profile_tips_locations_services_enabled">Enable the smartphone geolocalization to permit GeoSettings to change profiles</string>
+    <string name="profile_tips_profile_activable">Is the profile activable?</string>
+    <string name="profile_tips_title_master_switch_off">GeoSettings is disabled</string>
+    <string name="profile_tips_description_master_switch_off">GeoSettings is disabled, the profiles can\'t be activated</string>
+
+    <!-- Preference-->
+
+    <string name="pref_group_label_notifications">Notifications</string>
+    <string name="pref_group_label_geolocalizzazione">Geolocalizzation</string>
+    <string name="pref_group_label_maps">Maps</string>
+    <string name="pref_group_label_messages">Help tips</string>
+
+    <string name="pref_options_label_reset_guide">Show guide</string>
+    <string name="pref_options_label_tooltip_enabled">enable tips</string>
+    <string name="pref_options_label_notification_enabled">Enable notifications</string>
+    <string name="pref_options_label_notifications_sound">Notification sound</string>
+    <string name="pref_options_label_maps_type">Map type</string>
+    <string name="pref_options_label_notification_sticky">Notification always active</string>
+    <string name="pref_options_label_geolocalization_accuracy">Accuracy</string>
+    <string name="pref_options_label_listener_interval">Localization frequency</string>
+
+    <string name="pref_options_summary_reset_guide">Show guide again</string>
+    <string name="pref_options_summary_listener_interval">Interval between position checks. (warning: can increase battery usage)</string>
+    <string name="pref_options_summary_geolocalization_accuracy">Change the geolocalizzation accuracy. (warning: can increase battery usage)</string>
+    <string name="pref_options_summary_notifications_sound">Change the profile activation alert sound</string>
+    <string name="pref_options_summary_maps_accuracy">Map type in the profile page</string>
+
+    <string name="pref_options_precision_value_high">high</string>
+    <string name="pref_options_precision_value_balanced">balanced</string>
+    <string name="pref_options_listener_interval_value_ten_s">10 seconds</string>
+    <string name="pref_options_listener_interval_value_twenty_s">20 seconds</string>
+    <string name="pref_options_listener_interval_value_thirty_s">30 seconds</string>
+    <string name="pref_options_listener_interval_value_one_m">1 minute</string>
+    <string name="pref_options_listener_interval_value_five_m">5 minutes</string>
+    <string name="pref_options_maps_type_normal">Normal</string>
+    <string name="pref_options_maps_type_hybrid">Hybrid</string>
+    <string name="pref_options_maps_type_satellite">Satellite</string>
+
+
+
+    <!-- Areas -->
+
+    <string name="area_label_area">Area</string>
+    <string name="area_delete_area_message">The area will be deleted</string>
+    <string name="area_external_area_default_name">Esterno</string>
+    <string name="area_delete_area">Delete the area?</string>
+    <string name="area_dialog_first_tab">General</string>
+    <string name="area_dialog_second_tab">Time bands</string>
+    <string name="area_dialog_third_tab">Training</string>
+    <string name="area_threshold">Threshold</string>
+    <string name="area_latitude">Latitude</string>
+    <string name="area_longitude">Longitude</string>
+    <string name="area_time_band_title">Time bands</string>
+    <string name="area_no_time_band_specified">No time band created. The profile will always be activable in this area. </string>
+    <string name="area_training_enable">Enable training</string>
+    <string name="area_training_disable">Disable training</string>
+    <string name="area_training_time_label">Enable for N. hours:</string>
+    <string name="area_training_current_area_warning">Warning: In order to activate the training mode you need to be inside the area.</string>
+    <string name="area_training_notify_title">Training in progress…</string>
+    <string name="area_training_notify_advice">Start training</string>
+    <string name="area_label_training">training</string>
+    <string name="area_label_select_radius">Choose the raidus value</string>
+    <string name="area_label_insert_area_name">Area name</string>
+
+    <!-- guide -->
+
+    <string name="guide_title_master_switch">Enable / Disable GeoSettings</string>
+    <string name="guide_title_profile_activation">Enable profile to be activated</string>
+    <string name="guide_title_profile_map">Add areas</string>
+    <string name="guide_title_profile_option">Choose the settings</string>
+    <string name="guide_title_profile_map_external">External area</string>
+
+    <string name="guide_message_master_switch">This is the main GeoSettings switch. Turn it on to enable the system.</string>
+    <string name="guide_message_activation_button">This button enable the profile activation.</string>
+    <string name="guide_message_profile_map">Select one or more areas where the profile will be activated.</string>
+    <string name="guide_message_profile_options">Click on the settings to select the action to take</string>
+    <string name="guide_message_profile_map_external">The external profile will be activated everywhere except in the other profile\' areas.\nIs not possible to create areas in the external profile.</string>
+    <string name="guide_message_training_desc1">During the training mode, GeoSettings checks the received positions and enlarge the radius to include them in the area.</string>
+    <string name="guide_message_training_desc2">WARNING: remember to turn off the training mode before exit the area.</string>
+
+    <!-- debug -->
+
+    <string name="debug_action_sharedpref">SharedPref debug</string>
+    <string name="debug_action_database">sql debug</string>
+
+</resources>

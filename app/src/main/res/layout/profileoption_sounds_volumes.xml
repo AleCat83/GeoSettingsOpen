@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    >
+
+    <TextView
+        style="@style/general_text_view"
+        android:text="@string/profile_options_description_ringtones_volume" />
+
+    <SeekBar
+        style="@style/profile_seekbar"
+        android:clickable="false"
+        android:id="@+id/profile_ringtones_volume_value"/>
+
+    <TextView
+        style="@style/general_text_view"
+        android:text="@string/profile_options_description_notifications_volume" />
+
+
+    <SeekBar
+        style="@style/profile_seekbar"
+        android:clickable="false"
+        android:id="@+id/profile_notifications_volume_value"/>
+
+    <TextView
+        style="@style/general_text_view"
+        android:text="@string/profile_options_description_medias_volume" />
+
+    <SeekBar
+        style="@style/profile_seekbar"
+        android:clickable="false"
+        android:id="@+id/profile_media_volume_value"/>
+
+    <TextView
+        style="@style/general_text_view"
+        android:text="@string/profile_options_description_feedback_volume" />
+
+
+    <SeekBar
+        style="@style/profile_seekbar"
+        android:clickable="false"
+        android:id="@+id/profile_feedback_volume_value"/>
+
+    <!--<TextView
+        style="@style/general_text_view"
+        android:text="@string/profile_options_description_alarm_volume" />
+
+
+    <SeekBar
+        style="@style/profile_seekbar"
+        android:clickable="false"
+        android:id="@+id/profile_alarm_volume_value"/>-->
+
+</LinearLayout>

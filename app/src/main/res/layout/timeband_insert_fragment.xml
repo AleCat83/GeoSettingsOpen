@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+
+    <TextView
+        style="@style/title_text_view"
+        android:text="@string/area_time_band_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/general_text_view"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/time_range_min_value"/>
+        <TextView
+            style="@style/general_text_view"
+            android:layout_alignParentRight="true"
+            android:id="@+id/time_range_max_value"/>
+
+    </RelativeLayout>
+
+    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+        android:id="@+id/time_range_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:corner_radius="10"
+        app:min_value="0"
+        app:max_value="48"
+        app:gap="1"
+        app:bar_color="@color/ColorPrimary"
+        app:bar_highlight_color="@color/ColorAccent"
+        app:left_thumb_color="@color/ColorAccent"
+        app:right_thumb_color="@color/ColorAccent"
+        app:left_thumb_color_pressed="@color/ColorAccent"
+        app:right_thumb_color_pressed="@color/ColorAccent"
+        app:data_type="_integer"/>
+
+        <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
+            android:id="@+id/multi_day_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/selector_text"
+            app:buttonHeight="40dp"
+            app:buttonWidth="40dp"
+            app:checkedBackground="@drawable/round_back_checked"
+            app:buttonBackground="@drawable/round_back_default"
+            app:textButtons="@array/weekdays"
+            app:flow="true"
+            app:buttonSpacing="1dp"
+            app:animationType="scale"/>
+
+</LinearLayout>

@@ -1,0 +1,109 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- WIFI -->
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/profile_wifi_container"
+                style="@style/profile_option_container">
+
+                    <LinearLayout
+                        style="@style/profile_option_icon_subcontainer"
+                        android:id="@+id/profile_wifi_icon_container">
+
+                        <ImageView
+                            style="@style/profile_option_icon"
+                            android:src="@drawable/ic_wifi_black_48dp"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/profile_option_content_subcontainer"
+                        android:layout_toRightOf="@+id/profile_wifi_icon_container">
+
+                        <TextView
+                            style="@style/general_text_view"
+                            android:text="@string/profile_options_label_wifi"/>
+
+                        <TextView
+                            style="@style/small_text_view"
+                            android:text="@string/profile_options_description_wifi" />
+
+                        <TextView
+                            style="@style/very_small_text_view"
+                            android:id="@+id/profile_wifi_value"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/profile_option_activator_subcontainer">
+                        <android.support.v7.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/profile_wifi_active"/>
+
+                    </LinearLayout>
+
+            </RelativeLayout>
+
+    <View style="@style/profile_option_divisor"/>
+
+    <!-- BLUETOOTH-->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/profile_bluetooth_container"
+        style="@style/profile_option_container">
+
+            <LinearLayout
+                style="@style/profile_option_icon_subcontainer"
+                android:id="@+id/profile_bluetooth_icon_container">
+                <ImageView
+                    style="@style/profile_option_icon"
+                    android:src="@drawable/ic_bluetooth_black_48dp"
+                    />
+
+            </LinearLayout>
+
+        <LinearLayout
+            style="@style/profile_option_content_subcontainer"
+            android:layout_toRightOf="@+id/profile_bluetooth_icon_container">
+
+                <TextView
+                    style="@style/general_text_view"
+                    android:text="@string/profile_options_label_bluetooth"/>
+
+                <TextView
+                    style="@style/small_text_view"
+                    android:text="@string/profile_options_description_bluetooth" />
+
+                <TextView
+                    style="@style/very_small_text_view"
+                    android:id="@+id/profile_bluetooth_value"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/profile_option_activator_subcontainer">
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_bluetooth_active"/>
+
+            </LinearLayout>
+
+    </RelativeLayout>
+
+    <View style="@style/profile_option_divisor"/>
+
+    </LinearLayout>
+
+</ScrollView>

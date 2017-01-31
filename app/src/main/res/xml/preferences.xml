@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_group_label_geolocalizzazione"
+        android:key="pref_intervals_group">
+
+    <ListPreference
+        android:key="pref_geolocalization_accuracy"
+        android:title="@string/pref_options_label_geolocalization_accuracy"
+        android:entries="@array/geolocalizzation_types_entries"
+        android:entryValues="@array/geolocalizzation_types_types"
+        android:summary="@string/pref_options_summary_geolocalization_accuracy"
+        android:defaultValue="balanced"/>
+
+    <ListPreference
+        android:key="pref_normal_interval"
+        android:title="@string/pref_options_label_listener_interval"
+        android:entries="@array/geolocalizzation_time_entries"
+        android:entryValues="@array/geolocalizzation_time_values"
+
+        android:summary="@string/pref_options_summary_listener_interval"
+        android:defaultValue="30"
+        android:inputType="number"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/pref_group_label_maps"
+        android:key="pref_maps_group">
+
+        <ListPreference
+            android:key="pref_maps_type"
+            android:title="@string/pref_options_label_maps_type"
+            android:entries="@array/maps_types_entries"
+            android:entryValues="@array/maps_types_types"
+            android:summary="@string/pref_options_summary_maps_accuracy"
+            android:defaultValue="normal"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_group_label_notifications"
+        android:key="pref_notifications_group">
+
+        <CheckBoxPreference
+            android:key="pref_notification_enabled"
+            android:title="@string/pref_options_label_notification_enabled"
+            android:defaultValue= "true" />
+
+
+        <CheckBoxPreference
+            android:key="pref_notification_sticky"
+            android:title="@string/pref_options_label_notification_sticky"
+            android:defaultValue= "true" />
+
+
+        <RingtonePreference
+            android:key="pref_notifications_sound"
+            android:title="@string/pref_options_label_notifications_sound"
+            android:showSilent="true"
+            android:showDefault="true"
+            android:ringtoneType="notification"
+            android:defaultValue="DEFAULT_NOTIFICATION_URI"
+            android:summary="@string/pref_options_summary_notifications_sound" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

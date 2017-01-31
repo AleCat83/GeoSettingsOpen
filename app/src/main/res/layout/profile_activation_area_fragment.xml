@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/areaContainer"
+    >
+
+    <!--<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <TextView
+            style="@style/general_text_view"
+            android:text="@string/profile_tips_profile_activable"
+            android:layout_alignParentLeft="true"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                style="@style/general_text_view"
+                android:text="@string/general_no"
+                />
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_active"
+                android:textOff="@string/general_no"
+                android:textOn="@string/general_yes"/>
+            <TextView
+                style="@style/general_text_view"
+                android:text="@string/general_yes"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:padding="2dp">
+
+       <fragment
+            class="com.alecat.geosettingsopen.ScrollViewSupportMapFragment"
+            android:id="@+id/map_fragment"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:alpha="0.8"
+            android:background="@drawable/rndcorner"
+            android:onClick="placeAutocomplete"
+            >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/rndcorner"
+                android:src="@drawable/ic_search_black_48dp"
+                android:alpha="0.8"
+                android:onClick="placeAutocomplete"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

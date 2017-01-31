@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:id="@+id/profile_brightness_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp">
+
+    <TextView
+        style="@style/general_text_view"
+        android:text="@string/profile_options_description_brightness_level"/>
+
+    <SeekBar
+        style="@style/profile_seekbar"
+        android:clickable="false"
+        android:id="@+id/profile_brightness_level_value"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/general_text_view"
+            android:layout_alignParentLeft="true"
+            android:text="@string/profile_options_description_brightness_automatic" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/profile_brightness_automatic" />
+
+    </RelativeLayout>
+
+</LinearLayout>

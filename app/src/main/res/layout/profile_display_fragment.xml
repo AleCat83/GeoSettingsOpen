@@ -1,0 +1,161 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- brightness -->
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/profile_brightness_container"
+            style="@style/profile_option_container">
+
+                <LinearLayout
+                    style="@style/profile_option_icon_subcontainer"
+                    android:id="@+id/profile_brightness_icon_container"
+                    >
+                    <ImageView
+                        style="@style/profile_option_icon"
+                        android:src="@drawable/ic_brightness_medium_black_48dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/profile_option_content_subcontainer"
+                    android:layout_toRightOf="@+id/profile_brightness_icon_container"
+                    >
+
+                    <TextView
+                        style="@style/general_text_view"
+                        android:text="@string/profile_options_label_brightness"/>
+
+                    <TextView
+                        style="@style/small_text_view"
+                        android:text="@string/profile_options_description_brightness" />
+
+
+                    <TextView
+                        style="@style/very_small_text_view"
+                        android:id="@+id/profile_brightness_value"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/profile_option_activator_subcontainer">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/profile_brightness_active"/>
+                </LinearLayout>
+
+        </RelativeLayout>
+
+        <View style="@style/profile_option_divisor"/>
+
+        <!-- automatic screen rotation-->
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/profile_automatic_screen_rotation_container"
+            style="@style/profile_option_container">
+
+                <LinearLayout
+                    style="@style/profile_option_icon_subcontainer"
+                    android:id="@+id/profile_screen_rotation_icon_container">
+                    <ImageView
+                        style="@style/profile_option_icon"
+                        android:src="@drawable/ic_screen_rotation_black_48dp"/>
+
+                </LinearLayout>
+
+            <LinearLayout
+                style="@style/profile_option_content_subcontainer"
+                android:layout_toRightOf="@+id/profile_screen_rotation_icon_container"
+                >
+
+                    <TextView
+                        style="@style/general_text_view"
+                        android:text="@string/profile_options_label_automatic_screen_rotation"/>
+
+                    <TextView
+                        style="@style/small_text_view"
+                        android:text="@string/profile_options_description_automatic_screen_rotation" />
+
+                    <TextView
+                        style="@style/very_small_text_view"
+                        android:id="@+id/profile_automatic_screen_rotation_value"
+                        />
+
+                </LinearLayout>
+
+            <LinearLayout
+                style="@style/profile_option_activator_subcontainer">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/profile_automatic_screen_rotation_active"/>
+
+                </LinearLayout>
+
+        </RelativeLayout>
+
+        <View style="@style/profile_option_divisor"/>
+
+        <!-- screen timeout -->
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/profile_screen_timeout_container"
+            style="@style/profile_option_container">
+
+
+            <LinearLayout
+                style="@style/profile_option_icon_subcontainer"
+                android:id="@+id/profile_screen_timeout_icon_container">
+                    <ImageView
+                        android:src="@drawable/ic_timelapse_black_48dp"
+                        style="@style/profile_option_icon"/>
+
+                </LinearLayout>
+
+            <LinearLayout
+                style="@style/profile_option_content_subcontainer"
+                android:layout_toRightOf="@+id/profile_screen_timeout_icon_container"
+                >
+                    <TextView
+                        style="@style/general_text_view"
+                        android:text="@string/profile_options_label_screen_timeout"/>
+
+                    <TextView
+                        style="@style/small_text_view"
+                        android:text="@string/profile_options_description_screen_timeout" />
+
+                    <TextView
+                        style="@style/very_small_text_view"
+                        android:id="@+id/profile_screen_timeout_value"
+                        />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/profile_option_activator_subcontainer">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/profile_screen_timeout_active"/>
+
+                </LinearLayout>
+
+        </RelativeLayout>
+
+        <View style="@style/profile_option_divisor"/>
+
+    </LinearLayout>
+
+</ScrollView>

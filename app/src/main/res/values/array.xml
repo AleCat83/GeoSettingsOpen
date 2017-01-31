@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="geolocalizzation_types_entries">
+        <item>@string/pref_options_precision_value_balanced</item>
+        <item>@string/pref_options_precision_value_high</item>
+    </string-array>
+
+    <string-array name="geolocalizzation_types_types">
+        <item>balanced</item>
+        <item>high</item>
+    </string-array>
+
+
+
+
+
+    <string-array name="geolocalizzation_time_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="geolocalizzation_time_entries">
+        <item>@string/pref_options_listener_interval_value_ten_s</item>
+        <item>@string/pref_options_listener_interval_value_twenty_s</item>
+        <item>@string/pref_options_listener_interval_value_thirty_s</item>
+        <item>@string/pref_options_listener_interval_value_one_m</item>
+        <item>@string/pref_options_listener_interval_value_five_m</item>
+    </string-array>
+
+
+
+
+    <string-array name="maps_types_entries">
+        <item>@string/pref_options_maps_type_normal</item>
+        <item>@string/pref_options_maps_type_hybrid</item>
+        <item>@string/pref_options_maps_type_satellite</item>
+    </string-array>
+
+    <string-array name="maps_types_types">
+        <item>normal</item><!-- normal -->
+        <item>hybrid</item><!-- hybrid -->
+        <item>satellite</item><!-- satellite -->
+    </string-array>
+
+    <string-array name="profile_active_unactive">
+        <item>@string/general_disable</item>
+        <item>@string/general_enable</item>
+    </string-array>
+
+    <string-array name="soundprofile_values">
+        <item>@string/profile_options_values_sound</item>
+        <item>@string/profile_options_values_vibration</item>
+        <item>@string/profile_options_values_not_disturb</item>
+    </string-array>
+
+
+    <integer-array name="screen_timeout_values">
+        <item>15000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>120000</item>
+        <item>360000</item>
+        <item>600000</item>
+        <item>900000</item>
+        <item>360000</item>
+    </integer-array>
+
+    <string-array name="screen_timeout_labels">
+        <item>15 sec</item>
+        <item>30 sec</item>
+        <item>1 min</item>
+        <item>2 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>1 h</item>
+    </string-array>
+
+
+    <string-array name="area_radius">
+        <item>50 m</item>
+        <item>75 m</item>
+        <item>100 m</item>
+        <item>200 m</item>
+        <item>500 m</item>
+        <item>1000 m</item>
+        <item>2000 m</item>
+        <item>10000 m</item>
+    </string-array>
+
+
+    <string-array name="weekdays">
+        <item>MO</item>
+        <item>TU</item>
+        <item>WE</item>
+        <item>TH</item>
+        <item>FR</item>
+        <item>SA</item>
+        <item>SU</item>
+    </string-array>
+
+
+
+    <string-array name="training_time">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+    </string-array>
+
+
+
+
+
+
+
+</resources>

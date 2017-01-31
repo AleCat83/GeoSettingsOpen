@@ -1,0 +1,285 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorAccent">@color/ColorAccent</item>
+
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="buttonStyle">@style/RobotoButtonStyle</item>
+
+        <item name="colorControlActivated">@color/green</item>
+
+        <item name="android:alertDialogTheme">@style/AlertDialogTheme</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- this will resolve a bug in andoid N for the yes/no buttons-->
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorAccent">@color/ColorAccent</item>
+    </style>
+
+    <style name="tool_bar">
+        <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
+        <item name="android:background">@color/ColorPrimary</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+
+    </style>
+
+
+    <style name="whiteControlTheme" parent="AppTheme" >
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+
+
+    <style name="toolbar_switch_label" parent="general_text_view">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="external_container">
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="title_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/ColorPrimary</item>
+        <item name="android:textSize">@dimen/big_text_dimension</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+    </style>
+    <style name="general_edit_text" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+    </style>
+    <style name="general_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">@dimen/normal_text_dimension</item>
+    </style>
+
+    <style name="small_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/small_text_dimension</item>
+    </style>
+
+    <style name="very_small_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/verysmall_text_dimension</item>
+    </style>
+
+    <style name="general_button" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="background">@color/ColorPrimary</item>
+    </style>
+
+    <style name="general_spinner" parent="@style/Widget.AppCompat.Spinner.Underlined">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <style name="floating_action_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="backgroundTint">@color/ColorPrimary</item>
+        <item name="borderWidth">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:src">@drawable/ic_plus_white</item>
+        <item name="layout_anchorGravity">bottom|right|end</item>
+    </style>
+
+
+    <style name="delete_image_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/ic_delete_black_24dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:alpha">0.4</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- Notification Specific -->
+
+    <style name="notification_container">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="notification_textview_title" parent="@style/TextAppearance.AppCompat.Notification.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="notification_textview_description_first_line" parent="@style/TextAppearance.AppCompat.Notification.Info">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="notification_textview_description_second_line" parent="@style/TextAppearance.AppCompat.Notification.Line2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="notification_image_button">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="notification_image" parent="@style/TextAppearance.AppCompat.Notification.Media">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+    </style>
+
+
+
+    <!-- END - Notification Specific -->
+
+    <!-- Profile Specific -->
+
+    <style name="profile_edit_text_title" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:theme">@style/whiteControlTheme</item>
+    </style>
+
+    <style name="profile_item_description" parent="general_text_view">
+        <item name="android:layout_span">3</item>
+    </style>
+
+
+
+    <style name="app_bar_layout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTabText</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="tab_layout_style" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTabText</item>
+        <item name="tabSelectedTextColor">@color/ColorAccent</item>
+        <item name="tabBackground">@color/ColorPrimary</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="android:background">@color/ColorPrimary</item>
+    </style>
+
+    <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+    <style name="profile_option_container">
+        <item name="android:layout_height">88dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="profile_option_icon_subcontainer">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+
+    <style name="profile_option_content_subcontainer">
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+
+    <style name="profile_option_activator_subcontainer">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingLeft">8dp</item>
+    </style>
+
+    <style name="profile_option_icon">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">46dp</item>
+        <item name="android:alpha">0.6</item>
+    </style>
+
+    <style name="profile_option_divisor">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">#12000000</item>
+    </style>
+
+    <style name="profile_seekbar">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- end Profile Specific -->
+
+    <!-- Profile list -->
+
+    <style name="profile_list_single_container">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="profile_list_single_content">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+
+    <style name="profile_list_single_image_container">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">8dp</item>
+    </style>
+
+    <!-- Profile end -->
+
+</resources>

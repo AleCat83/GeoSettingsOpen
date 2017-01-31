@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    style="@style/external_container">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="@string/guide_message_training_desc1"
+                style="@style/general_text_view"/>
+            <TextView
+                android:text="@string/guide_message_training_desc2"
+                style="@style/general_text_view"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/training_time_container"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical">
+            <TextView
+                style="@style/general_text_view"
+                android:text="@string/area_training_time_label"
+                android:id="@+id/training_label"
+                />
+            <Spinner
+                style="@style/general_spinner"
+                android:id="@+id/training_time"
+                android:layout_alignRight="@+id/training_label"
+                android:layout_alignParentRight="true">
+            </Spinner>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/training_enable_container"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/training_enable"
+                android:text="@string/area_training_enable"
+                style="@style/general_button"
+            />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/training_message_container"
+        android:layout_marginTop="15dp">
+        <TextView
+            style="@style/general_text_view"
+            android:id="@+id/training_message"/>
+    </RelativeLayout>
+
+</LinearLayout>
