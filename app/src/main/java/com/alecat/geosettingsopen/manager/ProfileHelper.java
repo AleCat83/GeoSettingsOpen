@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.managers;
+package com.alecat.geosettingsopen.manager;
 
 import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
@@ -19,15 +19,15 @@ import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.database.DBhelper;
-import com.alecat.geosettingsopen.models.AreaModel;
-import com.alecat.geosettingsopen.models.ProfileModel;
+import com.alecat.geosettingsopen.database.DBHelper;
+import com.alecat.geosettingsopen.model.AreaModel;
+import com.alecat.geosettingsopen.model.ProfileModel;
 import com.alecat.geosettingsopen.notifications.NotificationsManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileManager {
+public class ProfileHelper {
 
     private static final String TABLE_NAME = "profile";
     private static final String FIELD_ID = "_id";
@@ -73,20 +73,9 @@ public class ProfileManager {
     private static final String FIELD_SMART_SCREEN = "smart_screen";
     private static final String FIELD_SMART_SCREEN_ACTIVE = "smart_screen_active";
 
-    /*private final Context ctx;
-
-
-
-    public ProfileManager(Context ctx){
-
-        this.ctx = ctx;
-        dbHelper = new DBhelper(ctx);
-    }*/
-
-
     public static Long saveProfile(Context ctx, ProfileModel profile){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 
@@ -198,12 +187,12 @@ public class ProfileManager {
     public static void deleteProfile(Context ctx, Long id){
 
 
-        List<AreaModel> areaList = AreaManager.getAreasByProfile(ctx, id);
+        List<AreaModel> areaList = AreaHelper.getAreasByProfile(ctx, id);
 
         //elimino prima le aree
         for (int i = 0; i < areaList.size(); i++) {
             AreaModel area = areaList.get(i);
-            AreaManager.deleteArea(ctx, area.id);
+            AreaHelper.deleteArea(ctx, area.id);
         }
 
         //controllo se e attivo, nel caso abilito default
@@ -215,7 +204,7 @@ public class ProfileManager {
             ActivateProfile(ctx, 1L, false);
         }
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try {
             db.delete(TABLE_NAME, FIELD_ID + "=?", new String[]{Long.toString(id)});
@@ -232,7 +221,7 @@ public class ProfileManager {
 
    public static List<ProfileModel> getAllProfiles(Context ctx) {
 
-       DBhelper dbHelper = new DBhelper(ctx);
+       DBHelper dbHelper = new DBHelper(ctx);
        SQLiteDatabase db = dbHelper.getReadableDatabase();
        Cursor cursor  = db.query(TABLE_NAME, new String[]{
                FIELD_ID,
@@ -295,7 +284,7 @@ public class ProfileManager {
 
     public static List<ProfileModel> getEnabledProfiles(Context ctx){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, new String[]{
                         FIELD_ID,
@@ -358,7 +347,7 @@ public class ProfileManager {
 
    public static ProfileModel getProfile(Context ctx, Long id){
 
-       DBhelper dbHelper = new DBhelper(ctx);
+       DBHelper dbHelper = new DBHelper(ctx);
        SQLiteDatabase db = dbHelper.getReadableDatabase();
        Cursor cursor = db.query(TABLE_NAME,
                new String[]{
@@ -414,11 +403,7 @@ public class ProfileManager {
        return profile;
    }
 
-
-
-
     public static void ActivateProfile(Context ctx, Long id, boolean overwrite) {
-
 
         if (!overwrite) {
             if(isProfileActive(ctx, id)){
@@ -536,10 +521,6 @@ public class ProfileManager {
         }
     }
 
-
-
-
-
     public static boolean isProfileActive(Context ctx, Long profile_id){
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -602,7 +583,6 @@ public class ProfileManager {
 
     }
 
-
     private static void changeNotificationsVolume(Context ctx, int value){
 
         AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
@@ -649,11 +629,6 @@ public class ProfileManager {
         RingtoneManager.setActualDefaultRingtoneUri(ctx, RingtoneManager.TYPE_NOTIFICATION, uri);
     }
 
-
-
-
-
-
     private static void changeAutoBrightness(Context ctx, Boolean value){
 
         if (value) {
@@ -669,7 +644,6 @@ public class ProfileManager {
 
 
     }
-
 
     private static void changeBrightness(Context ctx, int value){
 
@@ -700,13 +674,11 @@ public class ProfileManager {
                 value);
     }
 
-
     private static void changeScreenRotation(Context ctx, int value) {
         Settings.System.putInt(ctx.getContentResolver(),
                 Settings.System.ACCELEROMETER_ROTATION,
                 value);
     }
-
 
     private static ProfileModel cursorToProfile(Cursor cursor){
 
@@ -746,19 +718,8 @@ public class ProfileManager {
         );
     }
 
-
-
     private static int profilesNumber(Context ctx){
         return getAllProfiles(ctx).size();
     }
-
-
-
-
-
-
-
-
-
 
 }

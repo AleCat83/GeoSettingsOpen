@@ -1,27 +1,20 @@
-package com.alecat.geosettingsopen.activities;
+package com.alecat.geosettingsopen.activity;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.engine.LocationService;
 
-/**
- * Created by alessandro on 19/08/15.
- */
-public class PreferenceScreen extends BaseActivity {
+public class PreferenceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.preference_activity);
+        setContentView(R.layout.activity_preference);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,8 +32,8 @@ public class PreferenceScreen extends BaseActivity {
                 if(key.equals("pref_geolocalization_accuracy") || key.equals("pref_normal_interval") ||
                         key.equals("pref_notification_sticky") || key.equals("pref_notification_enabled")){
 
-                    LocationService.stopService(PreferenceScreen.this);
-                    LocationService.startService(PreferenceScreen.this);
+                    LocationService.stopService(PreferenceActivity.this);
+                    LocationService.startService(PreferenceActivity.this);
 
                 }
             }

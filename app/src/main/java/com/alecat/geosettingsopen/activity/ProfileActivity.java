@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.activities.profiles;
+package com.alecat.geosettingsopen.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,19 +17,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.activities.BaseActivity;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.ProfileModel;
-import com.google.android.gms.ads.AdListener;
+import com.alecat.geosettingsopen.fragment.ProfileAreasFragment;
+import com.alecat.geosettingsopen.fragment.DisplayFragment;
+import com.alecat.geosettingsopen.fragment.ProfileTimebandsFragment;
+import com.alecat.geosettingsopen.fragment.ProfileNetsFragment;
+import com.alecat.geosettingsopen.fragment.ProfileSoundsFragment;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.ProfileModel;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
-/**
- * Created by alessandro on 23/08/15.
- */
 public class ProfileActivity extends BaseActivity {
 
 
@@ -47,7 +47,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_detail);
+        setContentView(R.layout.activity_profile);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,7 +82,7 @@ public class ProfileActivity extends BaseActivity {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
 
-        ProfileModel profileModel = ProfileManager.getProfile(this, mProfileID);
+        ProfileModel profileModel = ProfileHelper.getProfile(this, mProfileID);
 
         EditText profileNameText = (EditText) findViewById(R.id.profile_profilename);
         profileNameText.setText(profileModel.name);
@@ -105,25 +105,25 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void saveName(String name) {
-        ProfileModel profile = ProfileManager.getProfile(this, mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(this, mProfileID);
         profile.name = name;
-        ProfileManager.saveProfile(this, profile);
+        ProfileHelper.saveProfile(this, profile);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        AreaFragment areaFragment = adapterViewPager.getAreaFragment();
-        SoundsFragment soundFragment = adapterViewPager.getSoundFragment();
+        ProfileAreasFragment profileAreasFragment = adapterViewPager.getAreaFragment();
+        ProfileSoundsFragment soundFragment = adapterViewPager.getSoundFragment();
 
-        if ((requestCode == SoundsFragment.REQUESTCODE_PICKRINGTONE || requestCode == SoundsFragment.REQUESTCODE_PICKNOTIFICATIONS) && data != null) {
+        if ((requestCode == ProfileSoundsFragment.REQUESTCODE_PICKRINGTONE || requestCode == ProfileSoundsFragment.REQUESTCODE_PICKNOTIFICATIONS) && data != null) {
             if(soundFragment != null) {
                 soundFragment.onActivityResult(requestCode, resultCode, data);
             }
         }
-        else if(requestCode == AreaFragment.REQUESTCODE_PLACE && data != null){
-            if(areaFragment !=null){
-                areaFragment.onActivityResult(requestCode, resultCode, data);
+        else if(requestCode == ProfileAreasFragment.REQUESTCODE_PLACE && data != null){
+            if(profileAreasFragment !=null){
+                profileAreasFragment.onActivityResult(requestCode, resultCode, data);
             }
         }
 
@@ -136,7 +136,7 @@ public class ProfileActivity extends BaseActivity {
             Intent intent =
                     new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                             .build(this);
-            startActivityForResult(intent, AreaFragment.REQUESTCODE_PLACE);
+            startActivityForResult(intent, ProfileAreasFragment.REQUESTCODE_PLACE);
         } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
             // TODO: Handle the error.
         }
@@ -148,10 +148,10 @@ public class ProfileActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
 
-        SoundsFragment soundFragment = adapterViewPager.getSoundFragment();
+        ProfileSoundsFragment soundFragment = adapterViewPager.getSoundFragment();
 
         switch (requestCode) {
-            case SoundsFragment.PERMISSION_REQUEST_WRITE_STORAGE_RINGTONE: {
+            case ProfileSoundsFragment.PERMISSION_REQUEST_WRITE_STORAGE_RINGTONE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
@@ -160,7 +160,7 @@ public class ProfileActivity extends BaseActivity {
                 }
                 return;
             }
-            case SoundsFragment.PERMISSION_REQUEST_WRITE_STORAGE_NOTIFICATION:{
+            case ProfileSoundsFragment.PERMISSION_REQUEST_WRITE_STORAGE_NOTIFICATION:{
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -182,14 +182,14 @@ public class ProfileActivity extends BaseActivity {
         private final int NUM_ITEMS = 4;
         private final Long mProfileID;
         Context mContext;
-        private AreaFragment mAreaFragment;
-        private SoundsFragment mSoundsFragment;
+        private ProfileAreasFragment mProfileAreasFragment;
+        private ProfileSoundsFragment mProfileSoundsFragment;
 
-        public AreaFragment getAreaFragment(){
-            return mAreaFragment;
+        public ProfileAreasFragment getAreaFragment(){
+            return mProfileAreasFragment;
         }
-        public SoundsFragment getSoundFragment(){
-            return mSoundsFragment;
+        public ProfileSoundsFragment getSoundFragment(){
+            return mProfileSoundsFragment;
         }
 
         public MyPagerAdapter(Context context, FragmentManager fragmentManager, Long profile) {
@@ -215,14 +215,14 @@ public class ProfileActivity extends BaseActivity {
             if(mProfileID == 1){
                 switch (position) {
                     case 0:
-                        mSoundsFragment = SoundsFragment.newInstance(mProfileID);
-                        return mSoundsFragment;
+                        mProfileSoundsFragment = ProfileSoundsFragment.newInstance(mProfileID);
+                        return mProfileSoundsFragment;
                     case 1:
-                        return NetsFragment.newInstance(mProfileID);
+                        return ProfileNetsFragment.newInstance(mProfileID);
                     case 2:
                         return DisplayFragment.newInstance(mProfileID);
                     case 3:
-                        return GeneralFragment.newInstance(mProfileID);
+                        return ProfileTimebandsFragment.newInstance(mProfileID);
                     default:
                         return null;
                 }
@@ -230,13 +230,13 @@ public class ProfileActivity extends BaseActivity {
             else{
                 switch (position) {
                     case 0:
-                        mAreaFragment = AreaFragment.newInstance(mProfileID);
-                        return mAreaFragment;
+                        mProfileAreasFragment = ProfileAreasFragment.newInstance(mProfileID);
+                        return mProfileAreasFragment;
                     case 1:
-                        mSoundsFragment = SoundsFragment.newInstance(mProfileID);
-                        return mSoundsFragment;
+                        mProfileSoundsFragment = ProfileSoundsFragment.newInstance(mProfileID);
+                        return mProfileSoundsFragment;
                     case 2:
-                        return NetsFragment.newInstance(mProfileID);
+                        return ProfileNetsFragment.newInstance(mProfileID);
                     case 3:
                         return DisplayFragment.newInstance(mProfileID);
                     default:

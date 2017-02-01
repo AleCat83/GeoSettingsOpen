@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.activities.profiles;
+package com.alecat.geosettingsopen.fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -19,7 +19,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -30,32 +29,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.ProfileModel;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.ProfileModel;
 
-
-/**
- * Created by alessandro on 23/08/15.
- */
-public class SoundsFragment extends Fragment {
+public class ProfileSoundsFragment extends Fragment {
 
     private Context ctx;
     private View mView;
     private Long mProfileID;
 
-    protected static final int PERMISSION_REQUEST_ACCESS_NOTIFICATION_POLICY = 10;
-    protected static final int PERMISSION_REQUEST_WRITE_STORAGE_RINGTONE = 11;
-    protected static final int PERMISSION_REQUEST_WRITE_STORAGE_NOTIFICATION = 12;
+    public static final int PERMISSION_REQUEST_ACCESS_NOTIFICATION_POLICY = 10;
+    public static final int PERMISSION_REQUEST_WRITE_STORAGE_RINGTONE = 11;
+    public static final int PERMISSION_REQUEST_WRITE_STORAGE_NOTIFICATION = 12;
 
-    protected static final int REQUESTCODE_PICKRINGTONE = 21;
-    protected static final int REQUESTCODE_PICKNOTIFICATIONS = 22;
+    public static final int REQUESTCODE_PICKRINGTONE = 21;
+    public static final int REQUESTCODE_PICKNOTIFICATIONS = 22;
 
-    public static SoundsFragment newInstance(Long profileId) {
-        SoundsFragment soundsFragment = new SoundsFragment();
+    public static ProfileSoundsFragment newInstance(Long profileId) {
+        ProfileSoundsFragment profileSoundsFragment = new ProfileSoundsFragment();
         Bundle args = new Bundle();
         args.putLong("ProfileId", profileId);
-        soundsFragment.setArguments(args);
-        return soundsFragment;
+        profileSoundsFragment.setArguments(args);
+        return profileSoundsFragment;
     }
 
     @Override
@@ -71,7 +66,7 @@ public class SoundsFragment extends Fragment {
 
         mProfileID = getArguments().getLong("ProfileId");
 
-        mView = inflater.inflate(R.layout.profile_sounds_fragment, container, false);
+        mView = inflater.inflate(R.layout.fragment_profile_sounds, container, false);
 
         initItems();
 
@@ -88,7 +83,7 @@ public class SoundsFragment extends Fragment {
 
     private void initItems(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         RelativeLayout soundprofileTableLayout = (RelativeLayout) mView.findViewById(R.id.profile_soundprofile_container);
 
@@ -132,12 +127,12 @@ public class SoundsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+                ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.profileoption_sounds_volumes, null);
+                View dialogView = inflater.inflate(R.layout.dialog_profile_sounds_volumes, null);
 
                 SeekBar notificationsVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_notifications_volume_value);
                 notificationsVolumeSeekbar.setProgress(profile.notifications_volume);
@@ -266,7 +261,7 @@ public class SoundsFragment extends Fragment {
 
     private void setSoundProfileVisual(){
 
-        final ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        final ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         String[] soundProfileLabels = getResources().getStringArray(R.array.soundprofile_values);
 
@@ -281,20 +276,20 @@ public class SoundsFragment extends Fragment {
     private void saveSoundProfile(int indexOfSelected){
 
 
-        final ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        final ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.soundprofile = indexOfSelected;
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
 
         saveSoundProfileActive(true);
     }
 
     private void saveSoundProfileActive(Boolean value){
 
-        final ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        final ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.soundprofile_active = value;
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
 
         SwitchCompat soundprofileSwitch = (SwitchCompat) mView.findViewById(R.id.profile_soundprofile_active);
         soundprofileSwitch.setChecked(value);
@@ -308,7 +303,7 @@ public class SoundsFragment extends Fragment {
     private void saveVolumes(int ringtones, int notifications, int media, int feedbacks/*, int alarm*/){
 
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
 
         profile.ringtones_volume = ringtones;
@@ -317,7 +312,7 @@ public class SoundsFragment extends Fragment {
         profile.feedback_volume = feedbacks;
         //profile.alarm_volume = alarm;
 
-        ProfileManager.saveProfile(getContext(),profile);
+        ProfileHelper.saveProfile(getContext(),profile);
 
         saveVolumesActive(true);
 
@@ -325,10 +320,10 @@ public class SoundsFragment extends Fragment {
 
     private void saveVolumesActive(Boolean value){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.volumes_active = value;
-        ProfileManager.saveProfile(getContext(),profile);
+        ProfileHelper.saveProfile(getContext(),profile);
 
         SwitchCompat volumesSwitch = (SwitchCompat) mView.findViewById(R.id.profile_volumes_active);
         volumesSwitch.setChecked(value);
@@ -341,7 +336,7 @@ public class SoundsFragment extends Fragment {
 
     private void setVolumesVisual(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         String value = "";
 
@@ -368,19 +363,19 @@ public class SoundsFragment extends Fragment {
 
     private void saveRingtone(Uri ringtoneUri){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
         profile.ringtones_uri = ringtoneUri.toString();
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
         saveRingtonesUriActive(true);
 
     }
 
     private void saveRingtonesUriActive(Boolean value){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.ringtones_uri_active = value;
-        ProfileManager.saveProfile(getContext(),profile);
+        ProfileHelper.saveProfile(getContext(),profile);
 
         SwitchCompat ringtoneUriSwitch = (SwitchCompat) mView.findViewById(R.id.profile_ringtone_uri_active);
         ringtoneUriSwitch.setChecked(value);
@@ -391,7 +386,7 @@ public class SoundsFragment extends Fragment {
 
     private void setRingtoneVisual(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         String ringtonesTitle = "";
 
@@ -409,10 +404,10 @@ public class SoundsFragment extends Fragment {
 
     private void saveNotification(Uri notificationUri){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.notifications_uri = notificationUri.toString();
-        ProfileManager.saveProfile(getContext(),profile);
+        ProfileHelper.saveProfile(getContext(),profile);
 
         saveNotificationsUriActive(true);
 
@@ -420,10 +415,10 @@ public class SoundsFragment extends Fragment {
 
     private void saveNotificationsUriActive(Boolean value){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.notifications_uri_active = value;
-        ProfileManager.saveProfile(getContext(),profile);
+        ProfileHelper.saveProfile(getContext(),profile);
 
         SwitchCompat notificationUriSwitch = (SwitchCompat) mView.findViewById(R.id.profile_notifications_uri_active);
         notificationUriSwitch.setChecked(value);
@@ -433,7 +428,7 @@ public class SoundsFragment extends Fragment {
 
     private void setNotificationsVisual(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
         String ringtonesTitle = "";
 
@@ -454,7 +449,7 @@ public class SoundsFragment extends Fragment {
 
     protected void chooseSoundProfile(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 
@@ -473,10 +468,10 @@ public class SoundsFragment extends Fragment {
         dialog.show();
     }
 
-    protected void chooseRingtone(){
+    public void chooseRingtone(){
 
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.profile_tips_ringtone);
@@ -488,9 +483,9 @@ public class SoundsFragment extends Fragment {
         startActivityForResult(intent, REQUESTCODE_PICKRINGTONE);
     }
 
-    protected void chooseNotificationSound(){
+    public void chooseNotificationSound(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.profile_options_label_notifications_uri);
@@ -503,7 +498,7 @@ public class SoundsFragment extends Fragment {
         startActivityForResult(intent, REQUESTCODE_PICKNOTIFICATIONS);
     }
 
-    private void showGuide(){
+    public void showGuide(){
 
         if(getContext() == null){
             return;//// TODO: 26/01/17 find better solution

@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen;
+package com.alecat.geosettingsopen.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

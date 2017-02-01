@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.activities.profiles;
+package com.alecat.geosettingsopen.fragment;
 
 
 import android.os.Bundle;
@@ -9,21 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.dialogs.TimeBandListFragment;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.ProfileModel;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.ProfileModel;
 
-public class GeneralFragment extends Fragment {
+public class ProfileTimebandsFragment extends Fragment {
 
     private static final Long mAreaDefaultID = 1L;
     private Long mProfileID;
 
-    public static GeneralFragment newInstance(Long profileId) {
-        GeneralFragment generalFragment = new GeneralFragment();
+    public static ProfileTimebandsFragment newInstance(Long profileId) {
+        ProfileTimebandsFragment profileTimebandsFragment = new ProfileTimebandsFragment();
         Bundle args = new Bundle();
         args.putLong("ProfileId", profileId);
-        generalFragment.setArguments(args);
-        return generalFragment;
+        profileTimebandsFragment.setArguments(args);
+        return profileTimebandsFragment;
     }
 
     @Override
@@ -32,9 +31,9 @@ public class GeneralFragment extends Fragment {
 
         mProfileID = getArguments().getLong("ProfileId");
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
-        View view = inflater.inflate(R.layout.profile_activation_time_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_timebands, container, false);
 
         /*SwitchCompat profileActive = (SwitchCompat) view.findViewById(R.id.profile_active);
 
@@ -64,9 +63,9 @@ public class GeneralFragment extends Fragment {
 
     private void saveActive(Boolean state) {
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
         profile.active = state;
-        ProfileManager.saveProfile(getContext(),profile);
+        ProfileHelper.saveProfile(getContext(),profile);
 
     }
 

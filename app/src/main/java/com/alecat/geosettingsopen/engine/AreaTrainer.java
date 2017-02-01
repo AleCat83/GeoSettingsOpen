@@ -5,14 +5,10 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
 
-import com.alecat.geosettingsopen.managers.AreaManager;
-import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.model.AreaModel;
 import com.alecat.geosettingsopen.notifications.NotificationsManager;
 
-
-/**
- * Created by alessandro on 17/03/16.
- */
 public class AreaTrainer {
 
     public static boolean isTrainingActive(Context ctx){
@@ -23,7 +19,7 @@ public class AreaTrainer {
 
     public static void startTraining (Context ctx, Long areaId, Long trainingTime){
 
-        if(!AreaManager.getCurrentArea(ctx).equals(areaId)){
+        if(!AreaHelper.getCurrentArea(ctx).equals(areaId)){
             return;
         }
         SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
@@ -58,7 +54,7 @@ public class AreaTrainer {
             return;
         }
 
-        AreaModel trainingArea = AreaManager.getArea(ctx, trainingAreaId);
+        AreaModel trainingArea = AreaHelper.getArea(ctx, trainingAreaId);
         trainingArea.training_point_number = trainingArea.training_point_number+1;
 
         if(areaWouldChange){
@@ -79,7 +75,7 @@ public class AreaTrainer {
 
         }
 
-        AreaManager.saveArea(ctx, trainingArea);
+        AreaHelper.saveArea(ctx, trainingArea);
 
 
         return;

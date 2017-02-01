@@ -7,9 +7,6 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 
-/**
- * Created by alessandro on 28/10/15.
- */
 public class SystemStatusChecker {
 
     public final static int SYSTEM_DISABLED = 0;

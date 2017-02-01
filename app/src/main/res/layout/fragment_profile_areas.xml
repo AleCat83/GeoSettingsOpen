@@ -48,7 +48,7 @@
         android:padding="2dp">
 
        <fragment
-            class="com.alecat.geosettingsopen.ScrollViewSupportMapFragment"
+            class="com.alecat.geosettingsopen.fragment.ScrollViewSupportMapFragment"
             android:id="@+id/map_fragment"
             android:layout_width="match_parent"
             android:layout_alignParentTop="true"

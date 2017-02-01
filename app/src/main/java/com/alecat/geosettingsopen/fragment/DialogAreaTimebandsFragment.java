@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.dialogs;
+package com.alecat.geosettingsopen.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,14 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.managers.AreaManager;
+import com.alecat.geosettingsopen.manager.AreaHelper;
 
-public class DialogAreaSecondTab extends Fragment {
+public class DialogAreaTimebandsFragment extends Fragment {
 
     private Long mAreaID;
 
-    public static DialogAreaSecondTab newInstance(Long areaID) {
-        DialogAreaSecondTab fragment = new DialogAreaSecondTab();
+    public static DialogAreaTimebandsFragment newInstance(Long areaID) {
+        DialogAreaTimebandsFragment fragment = new DialogAreaTimebandsFragment();
         Bundle args = new Bundle();
         args.putLong("area_id", areaID);
         fragment.setArguments(args);
@@ -27,7 +27,7 @@ public class DialogAreaSecondTab extends Fragment {
                              Bundle savedInstanceState) {
 
         mAreaID = getArguments().getLong("area_id");
-        View view = inflater.inflate(R.layout.dialog_area_second_tab, container, false);
+        View view = inflater.inflate(R.layout.fragment_area_dialog_timebands, container, false);
         initItems(view);
 
         return view;
@@ -45,7 +45,7 @@ public class DialogAreaSecondTab extends Fragment {
         ft.add(R.id.time_band_container, timebandList, "timeband_list");
 
 
-        AreaManager.activableBytime(getContext(), mAreaID);
+        AreaHelper.activableBytime(getContext(), mAreaID);
         ft.commit();
     }
 }

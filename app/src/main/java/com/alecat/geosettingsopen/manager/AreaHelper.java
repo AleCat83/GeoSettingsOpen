@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.managers;
+package com.alecat.geosettingsopen.manager;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,18 +12,18 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.alecat.geosettingsopen.database.DBhelper;
+import com.alecat.geosettingsopen.database.DBHelper;
 import com.alecat.geosettingsopen.engine.AreaTrainer;
-import com.alecat.geosettingsopen.models.AreaModel;
-import com.alecat.geosettingsopen.models.ProfileModel;
-import com.alecat.geosettingsopen.models.TimebandModel;
+import com.alecat.geosettingsopen.model.AreaModel;
+import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.model.TimebandModel;
 import com.alecat.geosettingsopen.notifications.NotificationsManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class AreaManager {
+public class AreaHelper {
 
     private static final String TABLE_NAME = "area";
     private static final String FIELD_ID = "_id";
@@ -47,7 +47,7 @@ public class AreaManager {
     public static void saveArea(Context ctx, AreaModel area){
 
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -121,7 +121,7 @@ public class AreaManager {
         if(id.equals(getCurrentArea(ctx))){
 
             setNoArea(ctx);
-            TimebandManager.removeTimeListenersByArea(ctx, id);
+            TimebandHelper.removeTimeListenersByArea(ctx, id);
 
             if(AreaTrainer.isTrainingActive(ctx)){
                 AreaTrainer.stopTraining(ctx);
@@ -135,7 +135,7 @@ public class AreaManager {
             }
         }
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         try {
@@ -159,7 +159,7 @@ public class AreaManager {
 
     public static List<AreaModel> getAllArea(Context ctx){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, new String[] { FIELD_ID, FIELD_NAME , FIELD_ADDRESS, FIELD_LATITUDE, FIELD_LONGITUDE, FIELD_RADIUS, FIELD_THRESHOLD, FIELD_PROFILE_ID, FIELD_GHOST, FIELD_PARENT_AREA_ID, FIELD_TRAINED, FIELD_TRAINING_POINT_NUMBER, FIELD_ALL_WORLD}, null, null, null, null, null);
 
@@ -181,7 +181,7 @@ public class AreaManager {
 
     private static List<AreaModel> getAllGhostAreaByParent(Context ctx, Long id){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_NAME, FIELD_ADDRESS, FIELD_LATITUDE, FIELD_LONGITUDE, FIELD_RADIUS, FIELD_THRESHOLD, FIELD_PROFILE_ID, FIELD_GHOST, FIELD_PARENT_AREA_ID, FIELD_TRAINED, FIELD_TRAINING_POINT_NUMBER, FIELD_ALL_WORLD},
@@ -208,7 +208,7 @@ public class AreaManager {
 
     public static List<AreaModel> getAllGhostAreaByProfile(Context ctx, Long id){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_NAME, FIELD_ADDRESS, FIELD_LATITUDE, FIELD_LONGITUDE, FIELD_RADIUS, FIELD_THRESHOLD, FIELD_PROFILE_ID, FIELD_GHOST, FIELD_PARENT_AREA_ID, FIELD_TRAINED, FIELD_TRAINING_POINT_NUMBER, FIELD_ALL_WORLD},
@@ -232,7 +232,7 @@ public class AreaManager {
 
     public static List<AreaModel> getAllParentArea(Context ctx){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_NAME, FIELD_ADDRESS, FIELD_LATITUDE, FIELD_LONGITUDE, FIELD_RADIUS, FIELD_THRESHOLD, FIELD_PROFILE_ID, FIELD_GHOST, FIELD_PARENT_AREA_ID, FIELD_TRAINED, FIELD_TRAINING_POINT_NUMBER, FIELD_ALL_WORLD},
@@ -259,7 +259,7 @@ public class AreaManager {
 
     public static AreaModel getArea(Context ctx, Long id){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_NAME , FIELD_ADDRESS, FIELD_LATITUDE, FIELD_LONGITUDE, FIELD_RADIUS, FIELD_THRESHOLD, FIELD_PROFILE_ID, FIELD_GHOST, FIELD_PARENT_AREA_ID, FIELD_TRAINED, FIELD_TRAINING_POINT_NUMBER, FIELD_ALL_WORLD},
@@ -288,7 +288,7 @@ public class AreaManager {
 
     public static List<AreaModel> getAreasByProfile(Context ctx, Long profile_id){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_NAME , FIELD_ADDRESS, FIELD_LATITUDE, FIELD_LONGITUDE, FIELD_RADIUS, FIELD_THRESHOLD, FIELD_PROFILE_ID, FIELD_GHOST, FIELD_PARENT_AREA_ID, FIELD_TRAINED, FIELD_TRAINING_POINT_NUMBER, FIELD_ALL_WORLD},
@@ -336,7 +336,7 @@ public class AreaManager {
             if(area.all_world){
                 continue;
             }
-            ProfileModel profile = ProfileManager.getProfile(ctx, area.profile_id);
+            ProfileModel profile = ProfileHelper.getProfile(ctx, area.profile_id);
             if(!profile.active){
                 continue;
             }
@@ -364,7 +364,7 @@ public class AreaManager {
 
     private static List<AreaModel> getOuterAreas(Context ctx){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_NAME, FIELD_ADDRESS, FIELD_LATITUDE, FIELD_LONGITUDE, FIELD_RADIUS, FIELD_THRESHOLD, FIELD_PROFILE_ID, FIELD_GHOST, FIELD_PARENT_AREA_ID, FIELD_TRAINED, FIELD_TRAINING_POINT_NUMBER, FIELD_ALL_WORLD},
@@ -415,7 +415,7 @@ public class AreaManager {
     public static boolean activableBytime(Context ctx, Long areaId){
 
 
-        List<TimebandModel> timeConditions = TimebandManager.getAllTimeConditionByArea(ctx, areaId);
+        List<TimebandModel> timeConditions = TimebandHelper.getAllTimeConditionByArea(ctx, areaId);
 
         if(timeConditions.isEmpty()){
             return true;//se non ho specificato orari il profilo è attivabile
@@ -519,7 +519,7 @@ public class AreaManager {
 
     public static void setCurrentArea(Context ctx, Long id_area){
 
-        TimebandManager.removeTimeListenersByArea(ctx, AreaManager.getCurrentArea(ctx));
+        TimebandHelper.removeTimeListenersByArea(ctx, AreaHelper.getCurrentArea(ctx));
 
 
         SharedPreferences.Editor sharedPreferenceEditor = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
@@ -527,7 +527,7 @@ public class AreaManager {
         sharedPreferenceEditor.apply();
 
 
-        TimebandManager.addTimeListenersByArea(ctx, id_area);
+        TimebandHelper.addTimeListenersByArea(ctx, id_area);
         NotificationsManager.sendStatusNotify(ctx, false);
     }
 
@@ -554,7 +554,7 @@ public class AreaManager {
     public static void activateExternalAreaProfile (Context ctx) {
         AreaModel areaModel = getArea(ctx, EXTENAL_AREA_ID);
         if(areaModel != null){
-            ProfileManager.ActivateProfile(ctx, areaModel.profile_id, false);
+            ProfileHelper.ActivateProfile(ctx, areaModel.profile_id, false);
         }
     }
 
@@ -563,7 +563,7 @@ public class AreaManager {
         if(isAreaActivable(ctx, area_id)){
             AreaModel areaModel = getArea(ctx, area_id);
             if(areaModel != null){
-                ProfileManager.ActivateProfile(ctx, areaModel.profile_id, false);
+                ProfileHelper.ActivateProfile(ctx, areaModel.profile_id, false);
             }
         }
     }

@@ -12,10 +12,7 @@ import com.alecat.geosettingsopen.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by alessandro on 19/01/15.
- */
-public class DBhelper extends SQLiteOpenHelper
+public class DBHelper extends SQLiteOpenHelper
 {
 
     private static final String DBNAME="geosettingsel_db";
@@ -93,7 +90,7 @@ public class DBhelper extends SQLiteOpenHelper
 
 
 
-    public DBhelper(Context context) {
+    public DBHelper(Context context) {
         super(context, DBNAME, null, 6);//DB version
         INSERT_AREA_DEFAULT = "INSERT INTO area (name, address, latitude, longitude, radius, threshold, profile_id, all_world, ghost  ) VALUES('"+context.getResources().getString(R.string.area_external_area_default_name)+"', '', 0, 0, 0, 0, 1, 1, 0);";
         INSERT_PROFILE_DEFAULT = "INSERT INTO profile (name, active) VALUES('"+context.getResources().getString(R.string.profile_external_profile_name)+"', 1);";

@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.activities.profiles;
+package com.alecat.geosettingsopen.fragment;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -20,12 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.ScrollViewSupportMapFragment;
-import com.alecat.geosettingsopen.dialogs.DialogArea;
-import com.alecat.geosettingsopen.managers.AreaManager;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.AreaModel;
-import com.alecat.geosettingsopen.models.ProfileModel;
+import com.alecat.geosettingsopen.dialog.DialogArea;
+import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.AreaModel;
+import com.alecat.geosettingsopen.model.ProfileModel;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdate;
@@ -45,8 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AreaFragment extends Fragment implements OnMapReadyCallback {
-    // Store instance variables
+public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback {
 
     private Long mProfileID;
     private GoogleMap mMap;
@@ -57,7 +55,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
     private LongSparseArray<List<Long>> mGhostAreaChild = new LongSparseArray<>();
 
 
-    protected static final int REQUESTCODE_PLACE = 1;
+    public static final int REQUESTCODE_PLACE = 1;
 
     private BroadcastReceiver mNewGhostArea = new BroadcastReceiver() {
         @Override
@@ -65,7 +63,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
             if (intent.hasExtra("area")) {
                 Bundle bundle = intent.getExtras();
 
-                AreaModel area = AreaManager.getArea(getContext(), (Long) bundle.get("area"));
+                AreaModel area = AreaHelper.getArea(getContext(), (Long) bundle.get("area"));
                 addGhostAreaOnMap(area);
             }
         }
@@ -92,7 +90,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
 
                 Bundle bundle = intent.getExtras();
 
-                AreaModel areaModel = AreaManager.getArea(context, (Long) bundle.get("area_id"));
+                AreaModel areaModel = AreaHelper.getArea(context, (Long) bundle.get("area_id"));
 
                 deleteAreaMarker(areaModel.id);
 
@@ -104,12 +102,12 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
     };
 
     // newInstance constructor for creating fragment with arguments
-    public static AreaFragment newInstance(Long profileId) {
-        AreaFragment areaFragment = new AreaFragment();
+    public static ProfileAreasFragment newInstance(Long profileId) {
+        ProfileAreasFragment profileAreasFragment = new ProfileAreasFragment();
         Bundle args = new Bundle();
         args.putLong("ProfileId", profileId);
-        areaFragment.setArguments(args);
-        return areaFragment;
+        profileAreasFragment.setArguments(args);
+        return profileAreasFragment;
     }
 
 
@@ -124,7 +122,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
 
         //ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
 
-        mView = inflater.inflate(R.layout.profile_activation_area_fragment, container, false);
+        mView = inflater.inflate(R.layout.fragment_profile_areas, container, false);
 
         mAreaContainer = (LinearLayout) mView.findViewById(R.id.areaContainer);
         ScrollViewSupportMapFragment mapFragment = (ScrollViewSupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
@@ -209,7 +207,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-        List<AreaModel> parentAreas = AreaManager.getAllParentArea(getContext());
+        List<AreaModel> parentAreas = AreaHelper.getAllParentArea(getContext());
 
         for (AreaModel area:parentAreas){
                 addAreaOnMap(area);
@@ -228,7 +226,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onMapClick(LatLng latLng) {
 
-                AreaModel area = AreaManager.getAreaByLatLng(getContext(), latLng.latitude, latLng.longitude, null);
+                AreaModel area = AreaHelper.getAreaByLatLng(getContext(), latLng.latitude, latLng.longitude, null);
                 if(area.all_world){//se clicco in un area già occupata non permetto la creazione di un altra area
                     addNewArea(latLng);
                 }
@@ -247,8 +245,8 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
 
                     ProfileNameIWAdapter(Long profileId) {
 
-                        final ProfileModel profileModel = ProfileManager.getProfile(getContext(), profileId);
-                        mContentView = getActivity().getLayoutInflater().inflate(R.layout.profile_area_marker_infowindow, null);
+                        final ProfileModel profileModel = ProfileHelper.getProfile(getContext(), profileId);
+                        mContentView = getActivity().getLayoutInflater().inflate(R.layout.infowindow_area, null);
 
                         TextView profileNameView = (TextView) mContentView.findViewById(R.id.profile_name);
                         profileNameView.setText(profileModel.name);
@@ -267,7 +265,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-                AreaModel clickedArea = AreaManager.getArea(getContext(), getAreaFromMarker(marker));
+                AreaModel clickedArea = AreaHelper.getArea(getContext(), getAreaFromMarker(marker));
 
                 if (clickedArea.profile_id.equals(mProfileID)) {
                     mMap.setInfoWindowAdapter(null);
@@ -299,11 +297,11 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onMarkerDragEnd(Marker marker) {
 
-                AreaModel area = AreaManager.getArea(getContext(), getAreaFromMarker(marker));
+                AreaModel area = AreaHelper.getArea(getContext(), getAreaFromMarker(marker));
                 LatLng newPosition = marker.getPosition();
                 area.latitude = newPosition.latitude;
                 area.longitude = newPosition.longitude;
-                AreaManager.saveArea(getContext(), area);
+                AreaHelper.saveArea(getContext(), area);
                 Circle oldCircle = mAreaCircle.get(area.id);
                 oldCircle.setCenter(newPosition);
             }
@@ -428,7 +426,7 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
                 0,
                 false);
 
-        AreaManager.saveArea(getContext(), areaModel);
+        AreaHelper.saveArea(getContext(), areaModel);
 
         if(areaModel.id != null){
             addAreaOnMap(areaModel);
@@ -440,9 +438,9 @@ public class AreaFragment extends Fragment implements OnMapReadyCallback {
 
     private void saveActive(Boolean state) {
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
         profile.active = state;
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
 
     }
 

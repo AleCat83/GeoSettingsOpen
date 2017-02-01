@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.managers;
+package com.alecat.geosettingsopen.manager;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,18 +10,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 
-import com.alecat.geosettingsopen.database.DBhelper;
+import com.alecat.geosettingsopen.database.DBHelper;
 import com.alecat.geosettingsopen.engine.GlobalEventsReceiver;
-import com.alecat.geosettingsopen.models.TimebandModel;
+import com.alecat.geosettingsopen.model.TimebandModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by alessandro on 25/01/15.
- */
-public class TimebandManager {
+public class TimebandHelper {
 
 
 
@@ -44,7 +41,7 @@ public class TimebandManager {
 
     public static void saveTimeCondition(Context ctx, TimebandModel timeCondition){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         if(timeCondition.id == null){
@@ -120,7 +117,7 @@ public class TimebandManager {
         Long areaId = timeCondition.area_id;
 
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try {
             db.delete(TABLE_NAME, FIELD_ID + "=?", new String[]{Long.toString(id)});
@@ -143,13 +140,13 @@ public class TimebandManager {
 
 
 
-        if(AreaManager.getCurrentArea(ctx).equals(area_id)){//se sono già nell'area rimuovo il listener e lo rimetto
-            if(AreaManager.isAreaActivable(ctx, area_id)){//verifico se l'area è attivabile e nel caso attivo il profile
-                AreaManager.activateAreaProfile(ctx, area_id);
+        if(AreaHelper.getCurrentArea(ctx).equals(area_id)){//se sono già nell'area rimuovo il listener e lo rimetto
+            if(AreaHelper.isAreaActivable(ctx, area_id)){//verifico se l'area è attivabile e nel caso attivo il profile
+                AreaHelper.activateAreaProfile(ctx, area_id);
 
             }
             else{
-                AreaManager.activateExternalAreaProfile(ctx);
+                AreaHelper.activateExternalAreaProfile(ctx);
             }
 
             removeTimeListenersByArea(ctx, area_id);
@@ -164,7 +161,7 @@ public class TimebandManager {
 
     public static List<TimebandModel> getAllTimeConditionByArea(Context ctx, Long area_id){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_AREA_ID, FIELD_START_HOUR, FIELD_START_MINUTE, FIELD_STOP_HOUR, FIELD_STOP_MINUTE, FIELD_MO, FIELD_TU, FIELD_WE, FIELD_TH,FIELD_FR, FIELD_SA, FIELD_SU},
@@ -190,7 +187,7 @@ public class TimebandManager {
 
     private static TimebandModel getTimeCondition(Context ctx, Long id){
 
-        DBhelper dbHelper = new DBhelper(ctx);
+        DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[]{FIELD_ID, FIELD_AREA_ID, FIELD_START_HOUR, FIELD_START_MINUTE, FIELD_STOP_HOUR, FIELD_STOP_MINUTE, FIELD_MO, FIELD_TU, FIELD_WE, FIELD_TH,FIELD_FR, FIELD_SA, FIELD_SU},

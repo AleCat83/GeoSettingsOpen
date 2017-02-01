@@ -7,9 +7,6 @@ import android.os.Bundle;
 
 import com.alecat.geosettingsopen.engine.AreaTrainer;
 
-/**
- * Created by alessandro on 20/08/15.
- */
 public class NotificationsReceiver extends BroadcastReceiver {
 
     public static final String AREA_START_TRAINING = "area.training.request";

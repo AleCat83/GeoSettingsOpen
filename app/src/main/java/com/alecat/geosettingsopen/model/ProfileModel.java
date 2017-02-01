@@ -1,8 +1,5 @@
-package com.alecat.geosettingsopen.models;
+package com.alecat.geosettingsopen.model;
 
-/**
- * Created by alessandro on 17/01/15.
- */
 public class ProfileModel {
 
     public Long id;

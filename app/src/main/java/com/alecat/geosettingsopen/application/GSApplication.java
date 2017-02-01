@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen;
+package com.alecat.geosettingsopen.application;
 
 import android.support.multidex.MultiDexApplication;
 

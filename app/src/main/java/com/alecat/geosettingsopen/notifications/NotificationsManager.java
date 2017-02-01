@@ -5,25 +5,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.widget.RemoteViews;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.activities.profiles.ProfileActivity;
-import com.alecat.geosettingsopen.activities.profiles.ProfileList;
+import com.alecat.geosettingsopen.activity.ProfileActivity;
+import com.alecat.geosettingsopen.activity.ProfileListActivity;
 import com.alecat.geosettingsopen.engine.AreaTrainer;
-import com.alecat.geosettingsopen.managers.AreaManager;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.AreaModel;
-import com.alecat.geosettingsopen.models.ProfileModel;
-
-/**
- * Created by alessandro on 20/08/15.
- */
+import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.AreaModel;
+import com.alecat.geosettingsopen.model.ProfileModel;
 
 public class NotificationsManager {
 
@@ -64,7 +58,7 @@ public class NotificationsManager {
         String activeProfileInfo = ctx.getResources().getString(R.string.profile_tips_system_active);
 
         if(activeProfileId != -1){
-            ProfileModel profileModel = ProfileManager.getProfile(ctx, activeProfileId);
+            ProfileModel profileModel = ProfileHelper.getProfile(ctx, activeProfileId);
             if(profileModel != null){
                 activeProfileInfo = ctx.getResources().getString(R.string.profile_profile_label)+": "+profileModel.name;
             }
@@ -78,7 +72,7 @@ public class NotificationsManager {
         String actualAreaInfo = "";
 
         if (actualAreaId != -2){
-            actualAreaModel = AreaManager.getArea(ctx, actualAreaId);
+            actualAreaModel = AreaHelper.getArea(ctx, actualAreaId);
             if(actualAreaModel != null){
                 actualAreaInfo = ctx.getResources().getString(R.string.area_label_area) + ": " + actualAreaModel.name;
             }
@@ -127,7 +121,7 @@ public class NotificationsManager {
             mainNotificationIntent.putExtra("id", actualAreaModel.profile_id);
         }
         else{
-            mainNotificationIntent = new Intent(ctx, ProfileList.class);
+            mainNotificationIntent = new Intent(ctx, ProfileListActivity.class);
         }
         PendingIntent pendingMainIntent = PendingIntent.getActivity(ctx, 0,
                 mainNotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);

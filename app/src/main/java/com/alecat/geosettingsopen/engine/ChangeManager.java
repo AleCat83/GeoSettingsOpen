@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.alecat.geosettingsopen.managers.AreaManager;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.AreaModel;
 
 
 public class ChangeManager  {
@@ -23,14 +23,14 @@ public class ChangeManager  {
 
     public void signalLocationEvent(Location location) {
 
-        Long actualAreaId = AreaManager.getCurrentArea(this.mContext);
+        Long actualAreaId = AreaHelper.getCurrentArea(this.mContext);
 
         if (!isBetterLocation(location)) {
             return;
         }
         newLocationAccepted(location);
 
-        AreaModel areaTarget = AreaManager.getAreaByLatLng(mContext,location.getLatitude(), location.getLongitude(), actualAreaId);
+        AreaModel areaTarget = AreaHelper.getAreaByLatLng(mContext,location.getLatitude(), location.getLongitude(), actualAreaId);
 
         if (!timeToChange(areaTarget.id)) {
             if(AreaTrainer.isTrainingActive(mContext)){
@@ -41,10 +41,10 @@ public class ChangeManager  {
 
         if(!AreaTrainer.isTrainingActive(mContext)){
 
-            AreaManager.setCurrentArea(this.mContext, areaTarget.id);
+            AreaHelper.setCurrentArea(this.mContext, areaTarget.id);
 
-            if(AreaManager.activableBytime(mContext, areaTarget.id)) {
-                ProfileManager.ActivateProfile(mContext, areaTarget.profile_id, false);
+            if(AreaHelper.activableBytime(mContext, areaTarget.id)) {
+                ProfileHelper.ActivateProfile(mContext, areaTarget.profile_id, false);
             }
 
         }
@@ -57,14 +57,14 @@ public class ChangeManager  {
 
         Long areaId = eventData.getLong("area_id");
 
-        if(AreaManager.isAreaActivable(mContext, areaId)) {
-            AreaModel areaModel = AreaManager.getArea(mContext, areaId);
+        if(AreaHelper.isAreaActivable(mContext, areaId)) {
+            AreaModel areaModel = AreaHelper.getArea(mContext, areaId);
             if(areaModel != null){
-                ProfileManager.ActivateProfile(mContext, areaModel.profile_id, false);
+                ProfileHelper.ActivateProfile(mContext, areaModel.profile_id, false);
             }
         }
         else{
-            ProfileManager.ActivateProfile(mContext, 1L, false);
+            ProfileHelper.ActivateProfile(mContext, 1L, false);
         }
 
     }
@@ -122,7 +122,7 @@ public class ChangeManager  {
         SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(this.mContext);
         SharedPreferences.Editor sharedPreferenceEditor = PreferenceManager.getDefaultSharedPreferences(this.mContext).edit();
         Long newAreaId = sharedPreference.getLong("new_area_id", -2);
-        Long actualAreaId = AreaManager.getCurrentArea(this.mContext);
+        Long actualAreaId = AreaHelper.getCurrentArea(this.mContext);
         Boolean mode_fast = sharedPreference.getBoolean("mode_fast", false);
 
         int newAreaCounter = sharedPreference.getInt("new_area_counter", 0);

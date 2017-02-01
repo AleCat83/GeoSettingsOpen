@@ -1,13 +1,10 @@
-package com.alecat.geosettingsopen.activities.profiles;
+package com.alecat.geosettingsopen.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,104 +14,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.activities.BaseActivity;
-import com.alecat.geosettingsopen.managers.AreaManager;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.AreaModel;
-import com.alecat.geosettingsopen.models.ProfileModel;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import com.alecat.geosettingsopen.activity.ProfileActivity;
+import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.AreaModel;
+import com.alecat.geosettingsopen.model.ProfileModel;
 
 import java.util.List;
 
-
-public class ProfileList extends BaseActivity {
-
-    private RecyclerView mRecyclerView;
-    private ProfilesRecyclerAdapter mProfilesRecyclerAdapter;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.profile_list);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        List<ProfileModel> profileList = ProfileManager.getAllProfiles(this);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.profile_recycler_list);
-        mRecyclerView.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mProfilesRecyclerAdapter = new ProfilesRecyclerAdapter(this, mRecyclerView, profileList);
-        mRecyclerView.setAdapter(mProfilesRecyclerAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        refresh();
-    }
-
-    private void refresh(){
-
-        List<ProfileModel> profileList = ProfileManager.getAllProfiles(this);
-        mProfilesRecyclerAdapter = new ProfilesRecyclerAdapter(this, mRecyclerView, profileList);
-        mRecyclerView.setAdapter(mProfilesRecyclerAdapter);
-
-    }
-
-    public void addProfile(View view){
-
-        ProfileModel profileModel = new ProfileModel(
-                null,
-                this.getResources().getString(R.string.profile_new_profile),
-                true,
-                0,
-                false,
-                0,
-                false,
-                0,
-                0,
-                false,
-                0,
-                0,
-                0,
-                0,
-                0,
-                false,
-                "",
-                false,
-                "",
-                false,
-                0,
-                0,
-                false,
-                false,
-                0,
-                false,
-                0,
-                false,
-                0,
-                false,
-                0,
-                false);
-
-
-        Long profileID = ProfileManager.saveProfile(this, profileModel);
-        if(profileID != null){
-            Intent intent = new Intent(this, ProfileActivity.class);
-            intent.putExtra("id", profileID);
-            startActivity(intent);
-        }
-    }
-}
-
-class ProfilesRecyclerAdapter extends RecyclerView.Adapter<ProfilesRecyclerAdapter.ViewHolder> {
+public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.ViewHolder> {
 
     private List<ProfileModel> mProfilesList;
     private Context mContext;
@@ -128,17 +36,17 @@ class ProfilesRecyclerAdapter extends RecyclerView.Adapter<ProfilesRecyclerAdapt
         }
     }
 
-    public ProfilesRecyclerAdapter(Context cxt, RecyclerView recyclerView, List<ProfileModel> profilesList) {
+    public ProfileListAdapter(Context cxt, RecyclerView recyclerView, List<ProfileModel> profilesList) {
         mProfilesList = profilesList;
         mContext = cxt;
         mRecyclerView = recyclerView;
     }
 
     @Override
-    public ProfilesRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public ProfileListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                            int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.profilelist_singleitem, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_profile, null);
 
         return new ViewHolder(view);
     }
@@ -154,7 +62,7 @@ class ProfilesRecyclerAdapter extends RecyclerView.Adapter<ProfilesRecyclerAdapt
 
         TextView statusLabel = (TextView) holder.view.findViewById(R.id.profileItemStatus);
 
-        List<AreaModel> profileAreas = AreaManager.getAreasByProfile(mContext, profile.id);
+        List<AreaModel> profileAreas = AreaHelper.getAreasByProfile(mContext, profile.id);
 
 
         if(!profile.active){
@@ -167,7 +75,7 @@ class ProfilesRecyclerAdapter extends RecyclerView.Adapter<ProfilesRecyclerAdapt
             statusLabel.setText(mContext.getResources().getString(R.string.profile_tips_profile_do_nothing));
         }
         else{
-            if(ProfileManager.isProfileActive(mContext, profile.id)){
+            if(ProfileHelper.isProfileActive(mContext, profile.id)){
                 statusLabel.setText(mContext.getResources().getString(R.string.profile_profile_active));
             }
             else{
@@ -189,7 +97,7 @@ class ProfilesRecyclerAdapter extends RecyclerView.Adapter<ProfilesRecyclerAdapt
 
             @Override
             public boolean onLongClick(View v) {
-                ProfileManager.ActivateProfile(mContext, profile.id, true);
+                ProfileHelper.ActivateProfile(mContext, profile.id, true);
                 return true;
             }
         });
@@ -230,10 +138,10 @@ class ProfilesRecyclerAdapter extends RecyclerView.Adapter<ProfilesRecyclerAdapt
                 .setPositiveButton(mContext.getResources().getString(R.string.general_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        ProfileManager.deleteProfile(mContext, profileId);
-                        List<ProfileModel> profileList = ProfileManager.getAllProfiles(mContext);
-                        ProfilesRecyclerAdapter profilesRecyclerAdapter = new ProfilesRecyclerAdapter(mContext, mRecyclerView, profileList);
-                        mRecyclerView.setAdapter(profilesRecyclerAdapter);
+                        ProfileHelper.deleteProfile(mContext, profileId);
+                        List<ProfileModel> profileList = ProfileHelper.getAllProfiles(mContext);
+                        ProfileListAdapter profileListAdapter = new ProfileListAdapter(mContext, mRecyclerView, profileList);
+                        mRecyclerView.setAdapter(profileListAdapter);
                     }
                 })
                 .setNegativeButton(mContext.getResources().getString(R.string.general_no), new DialogInterface.OnClickListener() {

@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.dialogs;
+package com.alecat.geosettingsopen.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,15 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.managers.AreaManager;
-import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.model.AreaModel;
 
-public class DialogAreaFirstTab extends Fragment {
+public class DialogAreaGeneralFragment extends Fragment {
 
     private Long mAreaID;
 
-    public static DialogAreaFirstTab newInstance(Long areaID) {
-        DialogAreaFirstTab fragment = new DialogAreaFirstTab();
+    public static DialogAreaGeneralFragment newInstance(Long areaID) {
+        DialogAreaGeneralFragment fragment = new DialogAreaGeneralFragment();
         Bundle args = new Bundle();
         args.putLong("area_id", areaID);
         fragment.setArguments(args);
@@ -37,7 +37,7 @@ public class DialogAreaFirstTab extends Fragment {
                              Bundle savedInstanceState) {
 
         mAreaID = getArguments().getLong("area_id");
-        View view = inflater.inflate(R.layout.dialog_area_first_tab, container, false);
+        View view = inflater.inflate(R.layout.fragment_area_dialog_general, container, false);
         initItems(view);
 
         return view;
@@ -45,7 +45,7 @@ public class DialogAreaFirstTab extends Fragment {
 
     private void initItems(View view){
 
-        final AreaModel area = AreaManager.getArea(getContext(), mAreaID);
+        final AreaModel area = AreaHelper.getArea(getContext(), mAreaID);
 
         EditText areaNameView = (EditText) view.findViewById(R.id.area_name);
         areaNameView.setText(area.name);
@@ -103,17 +103,17 @@ public class DialogAreaFirstTab extends Fragment {
 
     private void saveName(String name){
 
-        AreaModel areaModel = AreaManager.getArea(getContext(), mAreaID);
+        AreaModel areaModel = AreaHelper.getArea(getContext(), mAreaID);
         areaModel.name = name;
-        AreaManager.saveArea(getContext(), areaModel);
+        AreaHelper.saveArea(getContext(), areaModel);
 
     }
 
     private void saveRadius(String radius){
 
-        AreaModel areaModel = AreaManager.getArea(getContext(),mAreaID);
+        AreaModel areaModel = AreaHelper.getArea(getContext(),mAreaID);
         areaModel.radius = Integer.valueOf(radius.substring(0, radius.length()-2));
-        AreaManager.saveArea(getContext(), areaModel);
+        AreaHelper.saveArea(getContext(), areaModel);
     }
 
     private void deleteArea(){
@@ -126,7 +126,7 @@ public class DialogAreaFirstTab extends Fragment {
                 .setPositiveButton(getContext().getResources().getString(R.string.general_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        AreaManager.deleteArea(getContext(), mAreaID);
+                        AreaHelper.deleteArea(getContext(), mAreaID);
                     }
                 })
                 .setNegativeButton(getContext().getResources().getString(R.string.general_no), new DialogInterface.OnClickListener() {

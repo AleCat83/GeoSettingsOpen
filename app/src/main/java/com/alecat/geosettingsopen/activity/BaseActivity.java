@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.activities;
+package com.alecat.geosettingsopen.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -23,7 +23,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 
-import com.alecat.geosettingsopen.BuildConfig;
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.engine.LocationService;
 import com.alecat.geosettingsopen.engine.SystemStatusChecker;
@@ -158,7 +157,7 @@ public class BaseActivity extends AppCompatActivity {
 
             case R.id.action_settings:
 
-                Intent i1 = new Intent(this, PreferenceScreen.class);
+                Intent i1 = new Intent(this, PreferenceActivity.class);
                 startActivity(i1);
 
                 return true;

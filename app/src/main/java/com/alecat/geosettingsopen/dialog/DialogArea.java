@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.dialogs;
+package com.alecat.geosettingsopen.dialog;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -8,16 +8,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.alecat.geosettingsopen.R;
+import com.alecat.geosettingsopen.adapter.AreaDialogPageAdapter;
 
 public class DialogArea extends DialogFragment {
 
@@ -47,7 +44,7 @@ public class DialogArea extends DialogFragment {
 
         mAreaID = getArguments().getLong("area_id");
 
-        DialogAreaAdapter mPagerAdapter = new DialogAreaAdapter(getChildFragmentManager(), mAreaID, getContext());
+        AreaDialogPageAdapter mPagerAdapter = new AreaDialogPageAdapter(getChildFragmentManager(), mAreaID, getContext());
 
         ViewPager mViewPager = (ViewPager) dialogView.findViewById(R.id.dialog_area_pager);
         mViewPager.setAdapter(mPagerAdapter);
@@ -65,56 +62,3 @@ public class DialogArea extends DialogFragment {
         return dialogView;
     }
 }
-
-class DialogAreaAdapter extends FragmentPagerAdapter {
-
-    private final int NUM_ITEMS = 3;
-    private Long areaID;
-    private Context mCtx;
-
-
-    public DialogAreaAdapter(FragmentManager fm, Long areaID, Context mCtx) {
-        super(fm);
-        this.areaID = areaID;
-        this.mCtx = mCtx;
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-        switch (position) {
-            case 0: // Fragment # 0 - This will show FirstFragment different title
-                return DialogAreaFirstTab.newInstance(areaID);
-            case 1: // Fragment # 0 - This will show FirstFragment different title
-                return DialogAreaSecondTab.newInstance(areaID);
-            case 2: // Fragment # 0 - This will show FirstFragment different title
-                return DialogAreaThirdTab.newInstance(areaID);
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public int getCount() {
-        return NUM_ITEMS;
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-
-        switch (position) {
-            case 0:
-                return mCtx.getString(R.string.area_dialog_first_tab);
-            case 1:
-                return mCtx.getString(R.string.area_dialog_second_tab);
-            case 2:
-                return mCtx.getString(R.string.area_dialog_third_tab);
-            default:
-                return null;
-        }
-    }
-}
-
-
-
-
-

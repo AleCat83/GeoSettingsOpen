@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.preference.PreferenceManager;
 
-import com.alecat.geosettingsopen.managers.AreaManager;
-import com.alecat.geosettingsopen.managers.TimebandManager;
+import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.manager.TimebandHelper;
 
 
 public class GlobalEventsReceiver extends BroadcastReceiver {
@@ -21,7 +21,7 @@ public class GlobalEventsReceiver extends BroadcastReceiver {
             Boolean wasServiceRunning = sharedPref.getBoolean("service_started", true);
             if(wasServiceRunning){
                 LocationService.startService(context);
-                TimebandManager.addTimeListenersByArea(context, AreaManager.getCurrentArea(context));
+                TimebandHelper.addTimeListenersByArea(context, AreaHelper.getCurrentArea(context));
                 AreaTrainer.stopTraining(context);
             }
         }

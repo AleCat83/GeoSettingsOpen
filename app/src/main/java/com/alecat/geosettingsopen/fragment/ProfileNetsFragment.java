@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.activities.profiles;
+package com.alecat.geosettingsopen.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,23 +14,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.managers.ProfileManager;
-import com.alecat.geosettingsopen.models.ProfileModel;
+import com.alecat.geosettingsopen.activity.ProfileListActivity;
+import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.model.ProfileModel;
 
-/**
- * Created by alessandro on 23/08/15.
- */
-public class NetsFragment  extends Fragment {
+public class ProfileNetsFragment extends Fragment {
 
     private Long mProfileID;
     private View mView;
 
-    public static NetsFragment newInstance(Long profileId) {
-        NetsFragment netsFragment = new NetsFragment();
+    public static ProfileNetsFragment newInstance(Long profileId) {
+        ProfileNetsFragment profileNetsFragment = new ProfileNetsFragment();
         Bundle args = new Bundle();
         args.putLong("ProfileId", profileId);
-        netsFragment.setArguments(args);
-        return netsFragment;
+        profileNetsFragment.setArguments(args);
+        return profileNetsFragment;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class NetsFragment  extends Fragment {
 
         mProfileID = getArguments().getLong("ProfileId");
 
-        mView = inflater.inflate(R.layout.profile_nets_fragment, container, false);
+        mView = inflater.inflate(R.layout.fragment_profile_nets, container, false);
 
         initItems(mView);
 
@@ -50,10 +48,10 @@ public class NetsFragment  extends Fragment {
 
     private void initItems(View view){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         if(profile == null){
-            Intent intent = new Intent(getActivity(), ProfileList.class);
+            Intent intent = new Intent(getActivity(), ProfileListActivity.class);
             startActivity(intent);
             return;
         }
@@ -65,7 +63,7 @@ public class NetsFragment  extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ProfileModel profileModel = ProfileManager.getProfile(getContext(),mProfileID);
+                ProfileModel profileModel = ProfileHelper.getProfile(getContext(),mProfileID);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -107,7 +105,7 @@ public class NetsFragment  extends Fragment {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                ProfileModel profileModel = ProfileManager.getProfile(getContext(),mProfileID);
+                ProfileModel profileModel = ProfileHelper.getProfile(getContext(),mProfileID);
 
                 builder.setTitle(R.string.profile_options_label_bluetooth)
                         .setSingleChoiceItems(R.array.profile_active_unactive, profileModel.bluetooth,
@@ -142,11 +140,11 @@ public class NetsFragment  extends Fragment {
 
     private void saveWifi(int value){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.wifi = value;
 
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
 
         saveWIFIActive(true);
 
@@ -154,10 +152,10 @@ public class NetsFragment  extends Fragment {
 
 
     private void saveWIFIActive(Boolean value){
-        ProfileModel profile = ProfileManager.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
         profile.wifi_active = value;
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
 
         SwitchCompat wifiSwitch = (SwitchCompat) mView.findViewById(R.id.profile_wifi_active);
         wifiSwitch.setChecked(value);
@@ -167,7 +165,7 @@ public class NetsFragment  extends Fragment {
 
     private void setWIFIVisual(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
         String value = "";
         if(profile.wifi_active){
@@ -188,11 +186,11 @@ public class NetsFragment  extends Fragment {
 
     private void saveBluetooth(int value){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
         profile.bluetooth = value;
 
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
 
         saveBluetoothActive(true);
 
@@ -200,10 +198,10 @@ public class NetsFragment  extends Fragment {
 
 
     private void saveBluetoothActive(Boolean value){
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
         profile.bluetooth_active = value;
-        ProfileManager.saveProfile(getContext(), profile);
+        ProfileHelper.saveProfile(getContext(), profile);
 
         SwitchCompat bluetoothSwitch = (SwitchCompat) mView.findViewById(R.id.profile_bluetooth_active);
         bluetoothSwitch.setChecked(value);
@@ -214,7 +212,7 @@ public class NetsFragment  extends Fragment {
 
     private void setBluetoothVisual(){
 
-        ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
         String value = "";
 

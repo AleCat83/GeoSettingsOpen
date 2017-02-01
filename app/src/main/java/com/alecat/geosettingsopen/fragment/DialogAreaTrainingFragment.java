@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.dialogs;
+package com.alecat.geosettingsopen.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,15 +13,15 @@ import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.engine.AreaTrainer;
-import com.alecat.geosettingsopen.managers.AreaManager;
+import com.alecat.geosettingsopen.manager.AreaHelper;
 
-public class DialogAreaThirdTab extends Fragment {
+public class DialogAreaTrainingFragment extends Fragment {
 
     private Long mAreaID;
     private View mView;
 
-    public static DialogAreaThirdTab newInstance(Long areaID) {
-        DialogAreaThirdTab fragment = new DialogAreaThirdTab();
+    public static DialogAreaTrainingFragment newInstance(Long areaID) {
+        DialogAreaTrainingFragment fragment = new DialogAreaTrainingFragment();
         Bundle args = new Bundle();
         args.putLong("area_id", areaID);
         fragment.setArguments(args);
@@ -33,7 +33,7 @@ public class DialogAreaThirdTab extends Fragment {
                              Bundle savedInstanceState) {
 
         mAreaID = getArguments().getLong("area_id");
-        mView = inflater.inflate(R.layout.dialog_area_third_tab, container, false);
+        mView = inflater.inflate(R.layout.fragment_area_dialog_training, container, false);
         initItems(mView);
 
         return mView;
@@ -41,7 +41,7 @@ public class DialogAreaThirdTab extends Fragment {
 
     private void initItems(final View view){
 
-        if(AreaManager.getCurrentArea(getContext()).equals(mAreaID)){
+        if(AreaHelper.getCurrentArea(getContext()).equals(mAreaID)){
             if (AreaTrainer.isTrainingActive(getContext())){
                 setTrainingEnabled(true);
             }
