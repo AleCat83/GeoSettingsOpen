@@ -18,20 +18,20 @@ import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.activity.ProfileListActivity;
-import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
 import com.alecat.geosettingsopen.model.ProfileModel;
 
-public class DisplayFragment extends Fragment {
+public class ProfileDisplayFragment extends Fragment {
 
     private Long mProfileID;
     private View mView;
 
-    public static DisplayFragment newInstance(Long profileId) {
-        DisplayFragment displayFragment = new DisplayFragment();
+    public static ProfileDisplayFragment newInstance(Long profileId) {
+        ProfileDisplayFragment profileDisplayFragment = new ProfileDisplayFragment();
         Bundle args = new Bundle();
         args.putLong("ProfileId", profileId);
-        displayFragment.setArguments(args);
-        return displayFragment;
+        profileDisplayFragment.setArguments(args);
+        return profileDisplayFragment;
     }
 
     @Override

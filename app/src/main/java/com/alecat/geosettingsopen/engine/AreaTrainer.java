@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
 
-import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.helper.AreaHelper;
 import com.alecat.geosettingsopen.model.AreaModel;
 import com.alecat.geosettingsopen.notifications.NotificationsManager;
 

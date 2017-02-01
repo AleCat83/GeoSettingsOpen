@@ -29,7 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
 import com.alecat.geosettingsopen.model.ProfileModel;
 
 public class ProfileSoundsFragment extends Fragment {

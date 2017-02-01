@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.preference.PreferenceManager;
 
-import com.alecat.geosettingsopen.manager.AreaHelper;
-import com.alecat.geosettingsopen.manager.TimebandHelper;
+import com.alecat.geosettingsopen.helper.AreaHelper;
+import com.alecat.geosettingsopen.helper.TimebandHelper;
 
 
 public class GlobalEventsReceiver extends BroadcastReceiver {

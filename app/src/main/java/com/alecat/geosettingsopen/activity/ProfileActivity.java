@@ -18,11 +18,11 @@ import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.fragment.ProfileAreasFragment;
-import com.alecat.geosettingsopen.fragment.DisplayFragment;
+import com.alecat.geosettingsopen.fragment.ProfileDisplayFragment;
 import com.alecat.geosettingsopen.fragment.ProfileTimebandsFragment;
 import com.alecat.geosettingsopen.fragment.ProfileNetsFragment;
 import com.alecat.geosettingsopen.fragment.ProfileSoundsFragment;
-import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
 import com.alecat.geosettingsopen.model.ProfileModel;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
@@ -220,7 +220,7 @@ public class ProfileActivity extends BaseActivity {
                     case 1:
                         return ProfileNetsFragment.newInstance(mProfileID);
                     case 2:
-                        return DisplayFragment.newInstance(mProfileID);
+                        return ProfileDisplayFragment.newInstance(mProfileID);
                     case 3:
                         return ProfileTimebandsFragment.newInstance(mProfileID);
                     default:
@@ -238,7 +238,7 @@ public class ProfileActivity extends BaseActivity {
                     case 2:
                         return ProfileNetsFragment.newInstance(mProfileID);
                     case 3:
-                        return DisplayFragment.newInstance(mProfileID);
+                        return ProfileDisplayFragment.newInstance(mProfileID);
                     default:
                         return null;
                 }

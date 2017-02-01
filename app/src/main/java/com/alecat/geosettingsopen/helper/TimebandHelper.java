@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.manager;
+package com.alecat.geosettingsopen.helper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.helper.AreaHelper;
 import com.alecat.geosettingsopen.model.AreaModel;
 
 public class DialogAreaGeneralFragment extends Fragment {

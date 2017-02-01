@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.adapter.ProfileListAdapter;
-import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
 import com.alecat.geosettingsopen.model.ProfileModel;
 
 import java.util.List;

@@ -21,8 +21,8 @@ import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.dialog.DialogArea;
-import com.alecat.geosettingsopen.manager.AreaHelper;
-import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.helper.AreaHelper;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
 import com.alecat.geosettingsopen.model.AreaModel;
 import com.alecat.geosettingsopen.model.ProfileModel;
 import com.google.android.gms.location.places.Place;

@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.alecat.geosettingsopen.manager.AreaHelper;
-import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.helper.AreaHelper;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
 import com.alecat.geosettingsopen.model.AreaModel;
 
 

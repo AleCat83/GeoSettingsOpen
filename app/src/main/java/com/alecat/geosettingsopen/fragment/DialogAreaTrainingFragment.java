@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.engine.AreaTrainer;
-import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.helper.AreaHelper;
 
 public class DialogAreaTrainingFragment extends Fragment {
 

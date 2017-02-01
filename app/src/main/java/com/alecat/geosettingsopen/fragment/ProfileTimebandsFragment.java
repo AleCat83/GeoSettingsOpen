@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.manager.ProfileHelper;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
 import com.alecat.geosettingsopen.model.ProfileModel;
 
 public class ProfileTimebandsFragment extends Fragment {
@@ -48,7 +48,7 @@ public class ProfileTimebandsFragment extends Fragment {
             }
         });*/
 
-        TimeBandListFragment timebandList = new TimeBandListFragment();
+        TimebandListFragment timebandList = new TimebandListFragment();
         Bundle bundle = new Bundle();
         bundle.putLong("area_id", mAreaDefaultID);
         timebandList.setArguments(bundle);

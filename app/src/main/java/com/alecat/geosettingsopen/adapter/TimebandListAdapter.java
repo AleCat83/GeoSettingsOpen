@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.manager.TimebandHelper;
+import com.alecat.geosettingsopen.helper.TimebandHelper;
 import com.alecat.geosettingsopen.model.TimebandModel;
 
 import java.text.DecimalFormat;

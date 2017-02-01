@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.manager.AreaHelper;
+import com.alecat.geosettingsopen.helper.AreaHelper;
 
 public class DialogAreaTimebandsFragment extends Fragment {
 
@@ -35,7 +35,7 @@ public class DialogAreaTimebandsFragment extends Fragment {
 
     private void initItems(View view){
 
-        TimeBandListFragment timebandList = new TimeBandListFragment();
+        TimebandListFragment timebandList = new TimebandListFragment();
         Bundle bundle = new Bundle();
         bundle.putLong("area_id", mAreaID);
         timebandList.setArguments(bundle);
