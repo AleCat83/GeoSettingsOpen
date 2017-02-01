@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -86,13 +88,16 @@ public class ProfileActivity extends BaseActivity {
 
         EditText profileNameText = (EditText) findViewById(R.id.profile_profilename);
         profileNameText.setText(profileModel.name);
-        profileNameText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        profileNameText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    saveName(v.getText().toString());
-                }
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveName(s.toString());
             }
         });
     }

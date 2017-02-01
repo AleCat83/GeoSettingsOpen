@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,13 +51,16 @@ public class DialogAreaGeneralFragment extends Fragment {
 
         EditText areaNameView = (EditText) view.findViewById(R.id.area_name);
         areaNameView.setText(area.name);
-        areaNameView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        areaNameView.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    saveName(v.getText().toString());
-                }
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveName(s.toString());
             }
         });
 
