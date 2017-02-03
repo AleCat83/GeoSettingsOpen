@@ -111,7 +111,6 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
     }
 
 
-    // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -122,9 +121,13 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
 
         //ProfileModel profile = ProfileManager.getProfile(getContext(), mProfileID);
 
-        mView = inflater.inflate(R.layout.fragment_profile_areas, container, false);
+        if(mView == null){
+            mView = inflater.inflate(R.layout.fragment_profile_areas, container, false);
+            initFragment();
+        }
 
-        mAreaContainer = (LinearLayout) mView.findViewById(R.id.areaContainer);
+
+        /*mAreaContainer = (LinearLayout) mView.findViewById(R.id.areaContainer);
         ScrollViewSupportMapFragment mapFragment = (ScrollViewSupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
         mapFragment.setListener(new ScrollViewSupportMapFragment.OnTouchListener() {
             @Override
@@ -132,7 +135,9 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
                 mAreaContainer.requestDisallowInterceptTouchEvent(true);
             }
         });
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
+
+
 
         /*SwitchCompat profileActive = (SwitchCompat) mView.findViewById(R.id.profile_active);
 
@@ -147,6 +152,23 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
         });*/
 
         return mView;
+    }
+
+
+    private void initFragment(){
+
+        if(mMap == null){
+            final LinearLayout areaContainer = (LinearLayout) mView.findViewById(R.id.areaContainer);
+            ScrollViewSupportMapFragment mapFragment = (ScrollViewSupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
+            mapFragment.setListener(new ScrollViewSupportMapFragment.OnTouchListener() {
+                @Override
+                public void onTouch() {
+                    areaContainer.requestDisallowInterceptTouchEvent(true);
+                }
+            });
+            mapFragment.getMapAsync(this);
+        }
+
     }
 
 
