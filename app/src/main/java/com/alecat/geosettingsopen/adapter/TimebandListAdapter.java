@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.helper.TimebandHelper;
-import com.alecat.geosettingsopen.model.TimebandModel;
+import com.alecat.geosettingsopen.models.TimebandModel;
 
 import java.text.DecimalFormat;
 import java.util.List;

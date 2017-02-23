@@ -16,7 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.alecat.geosettingsopen.notifications.NotificationsManager;
+import com.alecat.geosettingsopen.notifications.NotificationsHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -42,7 +42,7 @@ public class LocationService extends Service implements
                 .build();
         mGoogleApiClient.connect();
 
-        NotificationsManager.sendStatusNotify(this, false);
+        NotificationsHelper.sendStatusNotify(this, false);
 
 
         return Service.START_STICKY;
@@ -57,7 +57,7 @@ public class LocationService extends Service implements
             mGoogleApiClient.disconnect();
             log("geosettings-debug: servizio annullato.");
         }
-        NotificationsManager.hideServiceNotification(this);
+        NotificationsHelper.hideServiceNotification(this);
     }
 
 

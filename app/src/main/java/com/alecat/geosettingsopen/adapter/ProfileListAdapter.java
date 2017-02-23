@@ -1,9 +1,11 @@
 package com.alecat.geosettingsopen.adapter;
 
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +19,15 @@ import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.activity.ProfileActivity;
 import com.alecat.geosettingsopen.helper.AreaHelper;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.AreaModel;
-import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
 
 import java.util.List;
 
 public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.ViewHolder> {
 
     private List<ProfileModel> mProfilesList;
+    private List<AreaModel> mAreaList;
     private Context mContext;
     private RecyclerView mRecyclerView;
 
@@ -36,10 +39,11 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
         }
     }
 
-    public ProfileListAdapter(Context cxt, RecyclerView recyclerView, List<ProfileModel> profilesList) {
+    public ProfileListAdapter(Context cxt, RecyclerView recyclerView, List<ProfileModel> profilesList, List<AreaModel> areaList) {
         mProfilesList = profilesList;
         mContext = cxt;
         mRecyclerView = recyclerView;
+        mAreaList = areaList;
     }
 
     @Override
@@ -56,11 +60,19 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
 
 
         final ProfileModel profile = mProfilesList.get(position);
-        TextView label = (TextView) holder.view.findViewById(R.id.profileItemName);
-        label.setText(profile.name);
+        TextView profileTitleTextView = (TextView) holder.view.findViewById(R.id.profileItemName);
+
+        String profileTitle = profile.name;
+
+        if(ProfileHelper.isProfileActive(mContext, profile.id)){
+            profileTitleTextView.setTextColor(ContextCompat.getColor(mContext, R.color.ColorAccent));
+        }
 
 
-        TextView statusLabel = (TextView) holder.view.findViewById(R.id.profileItemStatus);
+        profileTitleTextView.setText(profileTitle);
+
+
+        /*TextView statusLabel = (TextView) holder.view.findViewById(R.id.profileItemStatus);
 
         List<AreaModel> profileAreas = AreaHelper.getAreasByProfile(mContext, profile.id);
 
@@ -68,7 +80,7 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
         if(!profile.active){
             statusLabel.setText(mContext.getResources().getString(R.string.profile_tips_profile_off));
         }
-        else if(profileAreas.size() == 0 && profile.id != 1){
+        else if(profileAreas.size() == 0){
             statusLabel.setText(mContext.getResources().getString(R.string.profile_tips_no_areas));
         }
         else if(!profile.willDoSomething()){
@@ -82,6 +94,14 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
                 statusLabel.setText(mContext.getResources().getString(R.string.profile_tips_profile_activabile));
             }
         }
+
+        statusLabel.setText(getAreaInfo(profile.id), holder.view.findViewById(R.id.profileItemStatusFirst));*/
+
+
+        TextView itemStatusTextView = (TextView) holder.view.findViewById(R.id.profileItemStatus);
+        itemStatusTextView.setText(getAreaInfo(profile.id));
+
+
 
         RelativeLayout container = (RelativeLayout) holder.view.findViewById(R.id.profile_container);
 
@@ -97,7 +117,8 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
 
             @Override
             public boolean onLongClick(View v) {
-                ProfileHelper.ActivateProfile(mContext, profile.id, true);
+                ProfileHelper.activateProfile(mContext, profile.id, true);
+                refresh();
                 return true;
             }
         });
@@ -112,14 +133,8 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
             }
         };
 
-        if(profile.id != 1){
-            deleteButtonArea.setOnClickListener(deleteListener);
-            deleteButton.setOnClickListener(deleteListener);
-
-        }
-        else{
-            ((ViewGroup) deleteButton.getParent()).removeView(deleteButton);
-        }
+        deleteButtonArea.setOnClickListener(deleteListener);
+        deleteButton.setOnClickListener(deleteListener);
 
     }
 
@@ -139,9 +154,7 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         ProfileHelper.deleteProfile(mContext, profileId);
-                        List<ProfileModel> profileList = ProfileHelper.getAllProfiles(mContext);
-                        ProfileListAdapter profileListAdapter = new ProfileListAdapter(mContext, mRecyclerView, profileList);
-                        mRecyclerView.setAdapter(profileListAdapter);
+                        refresh();
                     }
                 })
                 .setNegativeButton(mContext.getResources().getString(R.string.general_no), new DialogInterface.OnClickListener() {
@@ -152,4 +165,52 @@ public class ProfileListAdapter extends RecyclerView.Adapter<ProfileListAdapter.
                 })
                 .show();
     }
+
+
+    private String getAreaInfo(Long id){
+
+        String areaInfoEnter = "";
+        String areaInfoExit = "";
+
+        for (AreaModel areaModel : mAreaList) {
+
+            if(areaModel.profile_id == id){
+                areaInfoEnter+=" "+areaModel.name+",";
+            }
+            else if(areaModel.exit_profile == id ||
+                    (areaModel.exit_profile.equals(ProfileHelper.DEFAUL_PROFILE) && ProfileHelper.getDefaultProfile(mContext).equals(id))){
+                areaInfoExit+=" "+areaModel.name+",";
+            }
+        }
+
+
+        if(areaInfoEnter.length() > 0){
+            areaInfoEnter = areaInfoEnter.substring(0, areaInfoEnter.length()-1);
+        }
+        if(areaInfoExit.length() > 0){
+            areaInfoExit = areaInfoExit.substring(0, areaInfoExit.length()-1);
+        }
+
+
+
+        if(areaInfoEnter.length() == 0 && areaInfoExit.length() == 0){
+            return mContext.getResources().getString(R.string.profile_tips_no_areas);
+        }
+        else if(areaInfoEnter.length() >0 && areaInfoExit.length() == 0){
+            return mContext.getResources().getString(R.string.general_in)+ ": "+areaInfoEnter;
+        }
+        else if(areaInfoEnter.length() == 0 && areaInfoExit.length()>0){
+            return mContext.getResources().getString(R.string.general_out)+ ": "+areaInfoExit;
+        }
+        else{
+            return mContext.getResources().getString(R.string.general_in)+ ": "+areaInfoEnter+" - "+ mContext.getResources().getString(R.string.general_out)+ ": "+areaInfoExit;
+        }
+    }
+
+
+    private void refresh(){
+        ProfileListAdapter profileListAdapter = new ProfileListAdapter(mContext, mRecyclerView, ProfileHelper.getAllProfiles(mContext), AreaHelper.getAllArea(mContext));
+        mRecyclerView.setAdapter(profileListAdapter);
+    }
+
 }

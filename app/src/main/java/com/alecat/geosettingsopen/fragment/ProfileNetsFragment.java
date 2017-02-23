@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.activity.ProfileListActivity;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
 
 public class ProfileNetsFragment extends Fragment {
 

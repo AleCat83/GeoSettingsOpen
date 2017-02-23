@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.model;
+package com.alecat.geosettingsopen.models;
 
 public class ProfileModel {
 

@@ -3,6 +3,7 @@ package com.alecat.geosettingsopen.fragment;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -13,18 +14,22 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.LongSparseArray;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alecat.geosettingsopen.R;
-import com.alecat.geosettingsopen.dialog.DialogArea;
 import com.alecat.geosettingsopen.helper.AreaHelper;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.AreaModel;
-import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.R;
+import com.alecat.geosettingsopen.dialog.DialogArea;
+import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdate;
@@ -39,17 +44,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback {
+    // Store instance variables
 
     private Long mProfileID;
     private GoogleMap mMap;
     private View mView;
-    private LinearLayout mAreaContainer;
     private LongSparseArray<Marker> mAreaMarkerMap = new LongSparseArray<>();
     private LongSparseArray<Circle> mAreaCircle = new LongSparseArray<>();
     private LongSparseArray<List<Long>> mGhostAreaChild = new LongSparseArray<>();
@@ -90,6 +94,7 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
 
                 Bundle bundle = intent.getExtras();
 
+
                 AreaModel areaModel = AreaHelper.getArea(context, (Long) bundle.get("area_id"));
 
                 deleteAreaMarker(areaModel.id);
@@ -111,6 +116,7 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
     }
 
 
+    // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,7 +131,6 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
             mView = inflater.inflate(R.layout.fragment_profile_areas, container, false);
             initFragment();
         }
-
 
         /*mAreaContainer = (LinearLayout) mView.findViewById(R.id.areaContainer);
         ScrollViewSupportMapFragment mapFragment = (ScrollViewSupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
@@ -166,11 +171,10 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
                     areaContainer.requestDisallowInterceptTouchEvent(true);
                 }
             });
+
             mapFragment.getMapAsync(this);
         }
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -202,11 +206,6 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
 
-
-
-
-
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         String prefMapsType = sharedPref.getString("pref_maps_type", "normal");
 
@@ -229,17 +228,31 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
 
 
 
+
+        //carico le aree parent
+
         List<AreaModel> parentAreas = AreaHelper.getAllParentArea(getContext());
 
+
+
+
+
         for (AreaModel area:parentAreas){
-                addAreaOnMap(area);
+            addAreaOnMap(area);
         }
+
+
+        //carico le aree fantasma
+
+        // TODO: 15/01/17 per ora le aree ghost restano spente
 
         /*List<AreaModel> ghostAreas = areaManager.getAllGhostAreaByProfile(mProfileID);
 
         for(AreaModel area:ghostAreas){
             addGhostAreaOnMap(area);
         }*/
+
+
 
         //imposto azione di click su mappa
 
@@ -249,11 +262,13 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
             public void onMapClick(LatLng latLng) {
 
                 AreaModel area = AreaHelper.getAreaByLatLng(getContext(), latLng.latitude, latLng.longitude, null);
-                if(area.all_world){//se clicco in un area già occupata non permetto la creazione di un altra area
+                if(area == null){//se clicco in un area già occupata non permetto la creazione di un altra area
                     addNewArea(latLng);
                 }
             }
         });
+
+
 
         //imposto azione di click su marker
 
@@ -353,8 +368,8 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
             mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                 @Override
                 public void onMapLoaded() {
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);//todo may cause crashes
-                mMap.moveCamera(cu);
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);//todo may cause crashes
+                    mMap.moveCamera(cu);
 
                 }
             });
@@ -368,6 +383,7 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mAreaModified,
                 new IntentFilter("area-modified"));
+
 
     }
 
@@ -390,8 +406,8 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
         }
 
         Marker marker = mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(area.latitude, area.longitude))
-                        .icon(markerIcon)
+                .position(new LatLng(area.latitude, area.longitude))
+                .icon(markerIcon)
         );
         if(area.profile_id.equals(mProfileID)){
             marker.setDraggable(true);
@@ -446,7 +462,7 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
                 null,
                 false,
                 0,
-                false);
+                false, 1L);
 
         AreaHelper.saveArea(getContext(), areaModel);
 
@@ -477,6 +493,7 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
         return null;
     }
 
+
     private void openAreaPopup(final AreaModel area){
 
         final DialogArea dialogFragment = new DialogArea();
@@ -488,6 +505,8 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
         dialogFragment.show(getFragmentManager(), "area-" + String.valueOf(area.id));
 
     }
+
+
 
     private void deleteAreaMarker(final Long areaId){
 

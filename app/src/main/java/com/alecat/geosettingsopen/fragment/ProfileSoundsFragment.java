@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -28,9 +29,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.R;
+import com.alecat.geosettingsopen.models.ProfileModel;
 
 public class ProfileSoundsFragment extends Fragment {
 
@@ -71,14 +72,6 @@ public class ProfileSoundsFragment extends Fragment {
         initItems();
 
         return mView;
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser ) {
-            showGuide();
-        }
     }
 
     private void initItems(){
@@ -167,7 +160,7 @@ public class ProfileSoundsFragment extends Fragment {
                                         notificationsVolumeSeekbar.getProgress(),
                                         mediaVolumeSeekbar.getProgress(),
                                         feedbackVolumeSeekbar.getProgress());
-                                        //alarmVolumeSeekbar.getProgress());
+                                //alarmVolumeSeekbar.getProgress());
                             }
                         })
                         .setNegativeButton(ctx.getResources().getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
@@ -447,7 +440,7 @@ public class ProfileSoundsFragment extends Fragment {
     }
 
 
-    protected void chooseSoundProfile(){
+    public void chooseSoundProfile(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
@@ -497,24 +490,6 @@ public class ProfileSoundsFragment extends Fragment {
         }
         startActivityForResult(intent, REQUESTCODE_PICKNOTIFICATIONS);
     }
-
-    public void showGuide(){
-
-        if(getContext() == null){
-            return;//// TODO: 26/01/17 find better solution
-        }
-        SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Boolean guideProfileOptionFired = sharedPreference.getBoolean("guide_profileoption_fired", false);
-
-        if(!guideProfileOptionFired){
-
-        ImageView soundProfileSwitch = (ImageView) mView.findViewById(R.id.profile_soundprofile_icon);
-        if(soundProfileSwitch == null){
-            return;
-        }
-        }
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

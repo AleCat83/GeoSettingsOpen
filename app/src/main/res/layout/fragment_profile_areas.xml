@@ -5,49 +5,13 @@
     android:id="@+id/areaContainer"
     >
 
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
-        <TextView
-            style="@style/general_text_view"
-            android:text="@string/profile_tips_profile_activable"
-            android:layout_alignParentLeft="true"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            >
-            <TextView
-                style="@style/general_text_view"
-                android:text="@string/general_no"
-                />
-            <android.support.v7.widget.SwitchCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/profile_active"
-                android:textOff="@string/general_no"
-                android:textOn="@string/general_yes"/>
-            <TextView
-                style="@style/general_text_view"
-                android:text="@string/general_yes"
-                />
-
-        </LinearLayout>
-
-    </RelativeLayout>-->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1"
         android:padding="2dp">
 
-       <fragment
+        <fragment
             class="com.alecat.geosettingsopen.fragment.ScrollViewSupportMapFragment"
             android:id="@+id/map_fragment"
             android:layout_width="match_parent"

@@ -12,22 +12,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.fragment.ProfileAreasFragment;
 import com.alecat.geosettingsopen.fragment.ProfileDisplayFragment;
-import com.alecat.geosettingsopen.fragment.ProfileTimebandsFragment;
 import com.alecat.geosettingsopen.fragment.ProfileNetsFragment;
 import com.alecat.geosettingsopen.fragment.ProfileSoundsFragment;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.ProfileModel;
-import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
-import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
+import com.alecat.geosettingsopen.models.ProfileModel;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -38,11 +32,6 @@ public class ProfileActivity extends BaseActivity {
     private MyPagerAdapter adapterViewPager;
 
     private Long mProfileID = null;
-
-    PublisherInterstitialAd mPublisherInterstitialAd;
-
-
-
 
 
 
@@ -57,15 +46,11 @@ public class ProfileActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if(intent.hasExtra("id")){
             mProfileID = extras.getLong("id");
         }
-
-
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
 
@@ -74,20 +59,17 @@ public class ProfileActivity extends BaseActivity {
         adapterViewPager = new MyPagerAdapter(this, getSupportFragmentManager(), mProfileID);
         vpPager.setAdapter(adapterViewPager);
 
-
-
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(vpPager);
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-
         ProfileModel profileModel = ProfileHelper.getProfile(this, mProfileID);
 
         EditText profileNameText = (EditText) findViewById(R.id.profile_profilename);
         profileNameText.setText(profileModel.name);
+
         profileNameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -100,14 +82,9 @@ public class ProfileActivity extends BaseActivity {
                 saveName(s.toString());
             }
         });
+
     }
 
-    private void requestNewInterstitial() {
-        PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
-                .build();
-
-        mPublisherInterstitialAd.loadAd(adRequest);
-    }
 
     private void saveName(String name) {
         ProfileModel profile = ProfileHelper.getProfile(this, mProfileID);
@@ -177,16 +154,10 @@ public class ProfileActivity extends BaseActivity {
         }
     }
 
-
-
-
-
-
-
     public class MyPagerAdapter extends FragmentPagerAdapter {
         private final int NUM_ITEMS = 4;
         private final Long mProfileID;
-        Context mContext;
+        private Context mContext;
         private ProfileAreasFragment mProfileAreasFragment;
         private ProfileSoundsFragment mProfileSoundsFragment;
 
@@ -204,8 +175,6 @@ public class ProfileActivity extends BaseActivity {
             this.mProfileID = profile;
         }
 
-
-
         // Returns total number of pages
         @Override
         public int getCount() {
@@ -216,37 +185,19 @@ public class ProfileActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
 
-
-            if(mProfileID == 1){
-                switch (position) {
-                    case 0:
-                        mProfileSoundsFragment = ProfileSoundsFragment.newInstance(mProfileID);
-                        return mProfileSoundsFragment;
-                    case 1:
-                        return ProfileNetsFragment.newInstance(mProfileID);
-                    case 2:
-                        return ProfileDisplayFragment.newInstance(mProfileID);
-                    case 3:
-                        return ProfileTimebandsFragment.newInstance(mProfileID);
-                    default:
-                        return null;
-                }
-            }
-            else{
-                switch (position) {
-                    case 0:
-                        mProfileAreasFragment = ProfileAreasFragment.newInstance(mProfileID);
-                        return mProfileAreasFragment;
-                    case 1:
-                        mProfileSoundsFragment = ProfileSoundsFragment.newInstance(mProfileID);
-                        return mProfileSoundsFragment;
-                    case 2:
-                        return ProfileNetsFragment.newInstance(mProfileID);
-                    case 3:
-                        return ProfileDisplayFragment.newInstance(mProfileID);
-                    default:
-                        return null;
-                }
+            switch (position) {
+                case 0:
+                    mProfileAreasFragment = ProfileAreasFragment.newInstance(mProfileID);
+                    return mProfileAreasFragment;
+                case 1:
+                    mProfileSoundsFragment = ProfileSoundsFragment.newInstance(mProfileID);
+                    return mProfileSoundsFragment;
+                case 2:
+                    return ProfileNetsFragment.newInstance(mProfileID);
+                case 3:
+                    return ProfileDisplayFragment.newInstance(mProfileID);
+                default:
+                    return null;
             }
         }
 
@@ -254,40 +205,22 @@ public class ProfileActivity extends BaseActivity {
         @Override
         public CharSequence getPageTitle(int position) {
 
-            if(mProfileID == 1) {
-                switch (position) {
+            switch (position) {
 
-                    case 0:
-                        return mContext.getString(R.string.profile_tabs_label_sounds);
-                    case 1:
-                        return mContext.getString(R.string.profile_tabs_label_nets);
-                    case 2:
-                        return mContext.getString(R.string.profile_tabs_label_display);
-                    case 3:
-                        return mContext.getString(R.string.profile_tabs_label_time_activation);
-                    default:
-                        return null;
-                }
-            }
-            else{
-                switch (position) {
+                case 0:
+                    return mContext.getString(R.string.profile_tabs_label_area_activation);
+                case 1:
+                    return mContext.getString(R.string.profile_tabs_label_sounds);
 
-                    case 0:
-                        return mContext.getString(R.string.profile_tabs_label_area_activation);
-                    case 1:
-                        return mContext.getString(R.string.profile_tabs_label_sounds);
+                case 2:
+                    return mContext.getString(R.string.profile_tabs_label_nets);
 
-                    case 2:
-                        return mContext.getString(R.string.profile_tabs_label_nets);
-
-                    case 3:
-                        return mContext.getString(R.string.profile_tabs_label_display);
-                    default:
-                        return null;
-                }
+                case 3:
+                    return mContext.getString(R.string.profile_tabs_label_display);
+                default:
+                    return null;
             }
         }
-
     }
 }
 

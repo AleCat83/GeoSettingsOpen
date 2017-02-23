@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 import com.alecat.geosettingsopen.database.DBHelper;
 import com.alecat.geosettingsopen.engine.GlobalEventsReceiver;
-import com.alecat.geosettingsopen.model.TimebandModel;
+import com.alecat.geosettingsopen.models.TimebandModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,18 +92,11 @@ public class TimebandHelper {
             }
         }
 
-
         checkTCOnActualArea(ctx, timeCondition.area_id);
-
 
         if(db != null && db.isOpen()){
             db.close();
         }
-
-
-
-
-
     }
 
     public static void deleteTimeCondition(Context ctx, Long id){
@@ -115,7 +108,6 @@ public class TimebandHelper {
         }
 
         Long areaId = timeCondition.area_id;
-
 
         DBHelper dbHelper = new DBHelper(ctx);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -131,22 +123,16 @@ public class TimebandHelper {
 
         checkTCOnActualArea(ctx, areaId);
 
-
     }
-
-
 
     private static void checkTCOnActualArea(Context ctx, Long area_id){
 
-
-
-        if(AreaHelper.getCurrentArea(ctx).equals(area_id)){//se sono già nell'area rimuovo il listener e lo rimetto
-            if(AreaHelper.isAreaActivable(ctx, area_id)){//verifico se l'area è attivabile e nel caso attivo il profile
+        if(AreaHelper.getCurrentArea(ctx).equals(area_id)){
+            if(AreaHelper.isAreaActivable(ctx, area_id)){//if area is activable
                 AreaHelper.activateAreaProfile(ctx, area_id);
-
             }
             else{
-                AreaHelper.activateExternalAreaProfile(ctx);
+                ProfileHelper.activateProfile(ctx, ProfileHelper.DEFAUL_PROFILE, false);
             }
 
             removeTimeListenersByArea(ctx, area_id);
@@ -154,10 +140,6 @@ public class TimebandHelper {
 
         }
     }
-
-
-
-
 
     public static List<TimebandModel> getAllTimeConditionByArea(Context ctx, Long area_id){
 
@@ -182,8 +164,6 @@ public class TimebandHelper {
         return tcList;
 
     }
-
-
 
     private static TimebandModel getTimeCondition(Context ctx, Long id){
 
@@ -210,13 +190,7 @@ public class TimebandHelper {
         return timebandModel;
     }
 
-
-
-
-
-
     public static void addTimeListenersByArea(Context ctx, Long areaId){
-
 
         List<TimebandModel> timeConditions = getAllTimeConditionByArea(ctx, areaId);
 
@@ -231,7 +205,7 @@ public class TimebandHelper {
             Long activeTimestamp = getTimestamp(timebandModel.start_hour, timebandModel.start_minute);
 
             if(!alarmTimes.contains(activeTimestamp)){
-              alarmTimes.add(activeTimestamp);
+                alarmTimes.add(activeTimestamp);
                 addTimeListener(ctx, areaId, activeTimestamp);
 
             }
@@ -244,9 +218,6 @@ public class TimebandHelper {
             }
         }
     }
-
-
-
 
     private static Long getTimestamp(int hour, int minute){
         Calendar calActive = Calendar.getInstance();
@@ -264,13 +235,7 @@ public class TimebandHelper {
 
     }
 
-
-
-
-
-
     private static PendingIntent getTimeConditionPI(Context ctx, Long areaID, Long time){
-
 
         Intent activateIntent = new Intent(ctx, GlobalEventsReceiver.class);
 
@@ -286,9 +251,6 @@ public class TimebandHelper {
 
     }
 
-
-
-
     public static void removeTimeListenersByArea(Context ctx, Long areaId){
 
 
@@ -297,7 +259,6 @@ public class TimebandHelper {
         if(timeConditions.size() == 0){
             return ;
         }
-
 
         ArrayList<Long> alarmTimes = new ArrayList<>();
 
@@ -321,10 +282,6 @@ public class TimebandHelper {
         }
     }
 
-
-
-
-
     private static void addTimeListener(Context ctx, Long areaID, Long time){
 
         AlarmManager alarms ;
@@ -334,9 +291,6 @@ public class TimebandHelper {
 
     }
 
-
-
-
     private static void removeTimeListener(Context ctx, Long areaID, long time){
 
         AlarmManager alarms ;
@@ -345,15 +299,4 @@ public class TimebandHelper {
         alarms.cancel(getTimeConditionPI(ctx, areaID, time));
 
     }
-
-
-
-
-
-
-
-
-
-
-
 }

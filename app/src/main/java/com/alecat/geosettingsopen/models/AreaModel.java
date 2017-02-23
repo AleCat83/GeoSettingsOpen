@@ -1,4 +1,4 @@
-package com.alecat.geosettingsopen.model;
+package com.alecat.geosettingsopen.models;
 
 public class AreaModel {
 
@@ -15,8 +15,9 @@ public class AreaModel {
     public boolean trained;
     public int training_point_number;
     public boolean all_world;
+    public Long exit_profile;
 
-    public AreaModel (Long id,String name, String address, double latitude, double longitude, int radius,int threshold,  Long profile_id, boolean ghost, Long parent_area_id, boolean trained, int training_point_number, boolean all_world){
+    public AreaModel (Long id,String name, String address, double latitude, double longitude, int radius,int threshold,  Long profile_id, boolean ghost, Long parent_area_id, boolean trained, int training_point_number, boolean all_world, Long exit_profile){
         this.id = id;
         this.name = name;
         this.address = address;
@@ -30,5 +31,6 @@ public class AreaModel {
         this.trained = trained;
         this.training_point_number = training_point_number;
         this.all_world = all_world;
+        this.exit_profile = exit_profile;
     }
 }

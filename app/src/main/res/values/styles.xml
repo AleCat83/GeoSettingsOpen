@@ -266,6 +266,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginRight">24dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_alignParentLeft">true</item>
     </style>
@@ -281,5 +282,14 @@
     </style>
 
     <!-- Profile end -->
+
+
+    <style name="CustomTitle2">
+        <item name="android:textColor">#CFD8DC</item>
+    </style>
+
+    <style name="CustomText2">
+        <item name="android:textColor">#deffffff</item>
+    </style>
 
 </resources>

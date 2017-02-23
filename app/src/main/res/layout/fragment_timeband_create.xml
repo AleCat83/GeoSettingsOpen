@@ -41,27 +41,27 @@
         app:gap="1"
         app:bar_color="@color/ColorPrimary"
         app:bar_highlight_color="@color/ColorAccent"
-        app:left_thumb_color="@color/ColorAccent"
-        app:right_thumb_color="@color/ColorAccent"
-        app:left_thumb_color_pressed="@color/ColorAccent"
-        app:right_thumb_color_pressed="@color/ColorAccent"
+        app:left_thumb_color="@color/ColorPrimaryDark"
+        app:right_thumb_color="@color/ColorPrimaryDark"
+        app:left_thumb_color_pressed="@color/ColorPrimary"
+        app:right_thumb_color_pressed="@color/ColorPrimary"
         app:data_type="_integer"/>
 
-        <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
-            android:id="@+id/multi_day_selector"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:textSize="14sp"
-            android:textColor="@color/selector_text"
-            app:buttonHeight="40dp"
-            app:buttonWidth="40dp"
-            app:checkedBackground="@drawable/round_back_checked"
-            app:buttonBackground="@drawable/round_back_default"
-            app:textButtons="@array/weekdays"
-            app:flow="true"
-            app:buttonSpacing="1dp"
-            app:animationType="scale"/>
+    <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
+        android:id="@+id/multi_day_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textSize="14sp"
+        android:textColor="@color/selector_text"
+        app:buttonHeight="40dp"
+        app:buttonWidth="40dp"
+        app:checkedBackground="@drawable/round_back_checked"
+        app:buttonBackground="@drawable/round_back_default"
+        app:textButtons="@array/weekdays"
+        app:flow="true"
+        app:buttonSpacing="1dp"
+        app:animationType="scale"/>
 
 </LinearLayout>

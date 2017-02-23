@@ -1,16 +1,15 @@
 package com.alecat.geosettingsopen.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,13 +17,21 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.helper.AreaHelper;
-import com.alecat.geosettingsopen.model.AreaModel;
+import com.alecat.geosettingsopen.R;
+import com.alecat.geosettingsopen.helper.ProfileHelper;
+import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DialogAreaGeneralFragment extends Fragment {
 
     private Long mAreaID;
+
+    private List<Long> mProfileIDList = new ArrayList<>();
+    private List<String> mProfileLabelList = new ArrayList<>();
 
     public static DialogAreaGeneralFragment newInstance(Long areaID) {
         DialogAreaGeneralFragment fragment = new DialogAreaGeneralFragment();
@@ -47,7 +54,9 @@ public class DialogAreaGeneralFragment extends Fragment {
 
     private void initItems(View view){
 
-        final AreaModel area = AreaHelper.getArea(getContext(), mAreaID);
+        Context ctx = getContext();
+
+        final AreaModel area = AreaHelper.getArea(ctx, mAreaID);
 
         EditText areaNameView = (EditText) view.findViewById(R.id.area_name);
         areaNameView.setText(area.name);
@@ -67,7 +76,7 @@ public class DialogAreaGeneralFragment extends Fragment {
         Spinner radiusSpinner = (Spinner) view.findViewById(R.id.area_radius);
 
         ArrayAdapter<CharSequence> adapterRadius = ArrayAdapter.createFromResource(
-                getContext(), R.array.area_radius, android.R.layout.simple_spinner_item);
+                ctx, R.array.area_radius, android.R.layout.simple_spinner_item);
         adapterRadius.setDropDownViewResource(android.R.layout.simple_spinner_item);
         radiusSpinner.setAdapter(adapterRadius);
 
@@ -95,6 +104,50 @@ public class DialogAreaGeneralFragment extends Fragment {
         TextView longView = (TextView) view.findViewById(R.id.area_longitude);
         longView.setText(String.format("%.8f", area.longitude));
 
+        //init exit profile spinner
+
+        AreaModel areaModel = AreaHelper.getArea(ctx, mAreaID);
+        List<ProfileModel> profileList = ProfileHelper.getAllProfiles(ctx);
+
+        mProfileLabelList.add(ctx.getResources().getString(R.string.profile_default_profile));
+        mProfileIDList.add(ProfileHelper.DEFAUL_PROFILE);
+
+        mProfileLabelList.add(ctx.getResources().getString(R.string.profile_no_profile));
+        mProfileIDList.add(ProfileHelper.NO_PROFILE);
+
+        for (int i=0; i<profileList.size(); i++) {
+            mProfileIDList.add(profileList.get(i).id);
+            String profileName = profileList.get(i).name;
+            if(profileName.length() > 15){
+                profileName = profileName.substring(0,15)+"...";
+            }
+
+            mProfileLabelList.add(profileName);
+
+        }
+
+        Spinner profileChooserSpinner = (Spinner) view.findViewById(R.id.profile_chooser);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                ctx,
+                android.R.layout.simple_spinner_item,
+                mProfileLabelList);
+
+        profileChooserSpinner.setAdapter(adapter);
+
+        profileChooserSpinner.setSelection(mProfileIDList.indexOf(areaModel.exit_profile), false);
+
+        profileChooserSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                saveExitProfile(mProfileIDList.get(position));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        //init delete button
         ImageButton deleteButton = (ImageButton) view.findViewById(R.id.delete_button);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -108,20 +161,31 @@ public class DialogAreaGeneralFragment extends Fragment {
 
     private void saveName(String name){
 
-        AreaModel areaModel = AreaHelper.getArea(getContext(), mAreaID);
+        Context ctx = getContext();
+        AreaModel areaModel = AreaHelper.getArea(ctx, mAreaID);
         areaModel.name = name;
-        AreaHelper.saveArea(getContext(), areaModel);
+        AreaHelper.saveArea(ctx, areaModel);
 
     }
 
     private void saveRadius(String radius){
 
-        AreaModel areaModel = AreaHelper.getArea(getContext(),mAreaID);
+        Context ctx = getContext();
+        AreaModel areaModel = AreaHelper.getArea(ctx,mAreaID);
         areaModel.radius = Integer.valueOf(radius.substring(0, radius.length()-2));
-        AreaHelper.saveArea(getContext(), areaModel);
+        AreaHelper.saveArea(ctx, areaModel);
+    }
+
+    private void saveExitProfile(Long profileID){
+
+        Context ctx = getContext();
+        AreaModel areaModel = AreaHelper.getArea(ctx, mAreaID);
+        areaModel.exit_profile = profileID;
+        AreaHelper.saveArea(ctx, areaModel);
     }
 
     private void deleteArea(){
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         builder

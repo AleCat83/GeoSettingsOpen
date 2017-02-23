@@ -20,9 +20,9 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.database.DBHelper;
-import com.alecat.geosettingsopen.model.AreaModel;
-import com.alecat.geosettingsopen.model.ProfileModel;
-import com.alecat.geosettingsopen.notifications.NotificationsManager;
+import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
+import com.alecat.geosettingsopen.notifications.NotificationsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +72,10 @@ public class ProfileHelper {
 
     private static final String FIELD_SMART_SCREEN = "smart_screen";
     private static final String FIELD_SMART_SCREEN_ACTIVE = "smart_screen_active";
+
+
+    public static final Long DEFAUL_PROFILE = -1L;
+    public static final Long NO_PROFILE = 0L;
 
     public static Long saveProfile(Context ctx, ProfileModel profile){
 
@@ -135,7 +139,6 @@ public class ProfileHelper {
             cv.put(FIELD_BLUETOOTH_ACTIVE, profile.bluetooth_active);
             cv.put(FIELD_MOBILE_DATA, profile.mobile_data);
 
-
             cv.put(FIELD_SOUNDPROFILE, profile.soundprofile);
             cv.put(FIELD_SOUNDPROFILE_ACTIVE, profile.soundprofile_active);
             cv.put(FIELD_RINGTONES_VOLUME, profile.ringtones_volume);
@@ -173,35 +176,42 @@ public class ProfileHelper {
             }
         }
 
-
         if(db.isOpen()){
             db.close();
         }
 
-
         return profile.id;
-
 
     }
 
     public static void deleteProfile(Context ctx, Long id){
 
+        Long defaultProfileID = getDefaultProfile(ctx);
 
-        List<AreaModel> areaList = AreaHelper.getAreasByProfile(ctx, id);
-
-        //elimino prima le aree
-        for (int i = 0; i < areaList.size(); i++) {
-            AreaModel area = areaList.get(i);
-            AreaHelper.deleteArea(ctx, area.id);
+        if(id.equals(defaultProfileID)){//if the profile to be delete is set as default we change it to no profile
+            setDefaultProfile(ctx, NO_PROFILE);
         }
 
-        //controllo se e attivo, nel caso abilito default
+        if(getActiveProfile(ctx).equals(id)){ //check if active and deactivate it
+            activateProfile(ctx, ProfileHelper.DEFAUL_PROFILE, false);
+        }
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
-        Long active_profile = sharedPref.getLong("active_profile", -1);
+        //check if some area has the profile as exit profile and sobstitute
 
-        if(active_profile.equals(id)){
-            ActivateProfile(ctx, 1L, false);
+        List<AreaModel> areaList = AreaHelper.getAllArea(ctx);
+
+        for (int i = 0; i < areaList.size(); i++) {
+
+            AreaModel areaModel = areaList.get(i);
+
+            if(areaModel.profile_id.equals(id)){ //if area belong to profile delete it
+                AreaHelper.deleteArea(ctx, areaModel.id);
+            }
+            //if profile is set as exit profile init to default exit profile
+            if(areaModel.exit_profile.equals(id)){
+                areaModel.exit_profile = getDefaultProfile(ctx);
+                AreaHelper.saveArea(ctx, areaModel);
+            }
         }
 
         DBHelper dbHelper = new DBHelper(ctx);
@@ -219,68 +229,63 @@ public class ProfileHelper {
 
     }
 
-   public static List<ProfileModel> getAllProfiles(Context ctx) {
+    public static List<ProfileModel> getAllProfiles(Context ctx) {
 
-       DBHelper dbHelper = new DBHelper(ctx);
-       SQLiteDatabase db = dbHelper.getReadableDatabase();
-       Cursor cursor  = db.query(TABLE_NAME, new String[]{
-               FIELD_ID,
-               FIELD_NAME,
-               FIELD_ACTIVE,
-               FIELD_WIFI,
-               FIELD_WIFI_ACTIVE,
-               FIELD_BLUETOOTH,
-               FIELD_BLUETOOTH_ACTIVE,
-               FIELD_MOBILE_DATA,
-               FIELD_SOUNDPROFILE,
-               FIELD_SOUNDPROFILE_ACTIVE,
-               FIELD_RINGTONES_VOLUME,
-               FIELD_NOTIFICATIONS_VOLUME,
-               FIELD_MEDIA_VOLUME,
-               FIELD_FEEDBACK_VOLUME,
-               FIELD_ALARM_VOLUME,
-               FIELD_VOLUMES_ACTIVE,
-               FIELD_RINGTONES,
-               FIELD_RINGTONES_URI_ACTIVE,
-               FIELD_NOTIFICATIONS_SOUND,
-               FIELD_NOTIFICATIONS_URI_ACTIVE,
-               FIELD_VIBRATION,
-               FIELD_BRIGHTNESS_LEVEL,
-               FIELD_BRIGHTNESS_AUTOMATIC,
-               FIELD_BRIGHTNESS_ACTIVE,
-               FIELD_NOTIFICATIONS_LED,
-               FIELD_NOTIFICATIONS_LED_ACTIVE,
-               FIELD_AUTOMATIC_SCREEN_ROTATION,
-               FIELD_AUTOMATIC_SCREEN_ROTATION_ACTIVE,
-               FIELD_SCREEN_TIMEOUT,
-               FIELD_SCREEN_TIMEOUT_ACTIVE,
-               FIELD_SMART_SCREEN,
-               FIELD_SMART_SCREEN_ACTIVE
-       }, null, null, null, null, null, null);
+        DBHelper dbHelper = new DBHelper(ctx);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor  = db.query(TABLE_NAME, new String[]{
+                FIELD_ID,
+                FIELD_NAME,
+                FIELD_ACTIVE,
+                FIELD_WIFI,
+                FIELD_WIFI_ACTIVE,
+                FIELD_BLUETOOTH,
+                FIELD_BLUETOOTH_ACTIVE,
+                FIELD_MOBILE_DATA,
+                FIELD_SOUNDPROFILE,
+                FIELD_SOUNDPROFILE_ACTIVE,
+                FIELD_RINGTONES_VOLUME,
+                FIELD_NOTIFICATIONS_VOLUME,
+                FIELD_MEDIA_VOLUME,
+                FIELD_FEEDBACK_VOLUME,
+                FIELD_ALARM_VOLUME,
+                FIELD_VOLUMES_ACTIVE,
+                FIELD_RINGTONES,
+                FIELD_RINGTONES_URI_ACTIVE,
+                FIELD_NOTIFICATIONS_SOUND,
+                FIELD_NOTIFICATIONS_URI_ACTIVE,
+                FIELD_VIBRATION,
+                FIELD_BRIGHTNESS_LEVEL,
+                FIELD_BRIGHTNESS_AUTOMATIC,
+                FIELD_BRIGHTNESS_ACTIVE,
+                FIELD_NOTIFICATIONS_LED,
+                FIELD_NOTIFICATIONS_LED_ACTIVE,
+                FIELD_AUTOMATIC_SCREEN_ROTATION,
+                FIELD_AUTOMATIC_SCREEN_ROTATION_ACTIVE,
+                FIELD_SCREEN_TIMEOUT,
+                FIELD_SCREEN_TIMEOUT_ACTIVE,
+                FIELD_SMART_SCREEN,
+                FIELD_SMART_SCREEN_ACTIVE
+        }, null, null, null, null, null, null);
 
 
-       List<ProfileModel> profileList = new  ArrayList<>();
+        List<ProfileModel> profileList = new  ArrayList<>();
 
-       while (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             ProfileModel profile = cursorToProfile(cursor);
 
 
             profileList.add(profile);
-       }
+        }
 
+        cursor.close();
 
-       cursor.close();
+        if(db.isOpen()){
+            db.close();
+        }
 
-       if(db.isOpen()){
-           db.close();
-       }
-
-
-
-       return profileList;
-   }
-
-
+        return profileList;
+    }
 
     public static List<ProfileModel> getEnabledProfiles(Context ctx){
 
@@ -330,96 +335,89 @@ public class ProfileHelper {
             profileList.add(profile);
         }
 
-
-
         cursor.close();
         if(db.isOpen()){
             db.close();
         }
 
-
-
         return profileList;
     }
 
+    public static ProfileModel getProfile(Context ctx, Long id){
 
+        DBHelper dbHelper = new DBHelper(ctx);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{
+                        FIELD_ID,
+                        FIELD_NAME,
+                        FIELD_ACTIVE,
+                        FIELD_WIFI,
+                        FIELD_WIFI_ACTIVE,
+                        FIELD_BLUETOOTH,
+                        FIELD_BLUETOOTH_ACTIVE,
+                        FIELD_MOBILE_DATA,
+                        FIELD_SOUNDPROFILE,
+                        FIELD_SOUNDPROFILE_ACTIVE,
+                        FIELD_RINGTONES_VOLUME,
+                        FIELD_NOTIFICATIONS_VOLUME,
+                        FIELD_MEDIA_VOLUME,
+                        FIELD_FEEDBACK_VOLUME,
+                        FIELD_ALARM_VOLUME,
+                        FIELD_VOLUMES_ACTIVE,
+                        FIELD_RINGTONES,
+                        FIELD_RINGTONES_URI_ACTIVE,
+                        FIELD_NOTIFICATIONS_SOUND,
+                        FIELD_NOTIFICATIONS_URI_ACTIVE,
+                        FIELD_VIBRATION,
+                        FIELD_BRIGHTNESS_LEVEL,
+                        FIELD_BRIGHTNESS_AUTOMATIC,
+                        FIELD_BRIGHTNESS_ACTIVE,
+                        FIELD_NOTIFICATIONS_LED,
+                        FIELD_NOTIFICATIONS_LED_ACTIVE,
+                        FIELD_AUTOMATIC_SCREEN_ROTATION,
+                        FIELD_AUTOMATIC_SCREEN_ROTATION_ACTIVE,
+                        FIELD_SCREEN_TIMEOUT,
+                        FIELD_SCREEN_TIMEOUT_ACTIVE,
+                        FIELD_SMART_SCREEN,
+                        FIELD_SMART_SCREEN_ACTIVE},
+                FIELD_ID + "=" + id, null, null, null, null, null);
 
+        ProfileModel profile = null;
 
-   public static ProfileModel getProfile(Context ctx, Long id){
-
-       DBHelper dbHelper = new DBHelper(ctx);
-       SQLiteDatabase db = dbHelper.getReadableDatabase();
-       Cursor cursor = db.query(TABLE_NAME,
-               new String[]{
-                       FIELD_ID,
-                       FIELD_NAME,
-                       FIELD_ACTIVE,
-                       FIELD_WIFI,
-                       FIELD_WIFI_ACTIVE,
-                       FIELD_BLUETOOTH,
-                       FIELD_BLUETOOTH_ACTIVE,
-                       FIELD_MOBILE_DATA,
-                       FIELD_SOUNDPROFILE,
-                       FIELD_SOUNDPROFILE_ACTIVE,
-                       FIELD_RINGTONES_VOLUME,
-                       FIELD_NOTIFICATIONS_VOLUME,
-                       FIELD_MEDIA_VOLUME,
-                       FIELD_FEEDBACK_VOLUME,
-                       FIELD_ALARM_VOLUME,
-                       FIELD_VOLUMES_ACTIVE,
-                       FIELD_RINGTONES,
-                       FIELD_RINGTONES_URI_ACTIVE,
-                       FIELD_NOTIFICATIONS_SOUND,
-                       FIELD_NOTIFICATIONS_URI_ACTIVE,
-                       FIELD_VIBRATION,
-                       FIELD_BRIGHTNESS_LEVEL,
-                       FIELD_BRIGHTNESS_AUTOMATIC,
-                       FIELD_BRIGHTNESS_ACTIVE,
-                       FIELD_NOTIFICATIONS_LED,
-                       FIELD_NOTIFICATIONS_LED_ACTIVE,
-                       FIELD_AUTOMATIC_SCREEN_ROTATION,
-                       FIELD_AUTOMATIC_SCREEN_ROTATION_ACTIVE,
-                       FIELD_SCREEN_TIMEOUT,
-                       FIELD_SCREEN_TIMEOUT_ACTIVE,
-                       FIELD_SMART_SCREEN,
-                       FIELD_SMART_SCREEN_ACTIVE},
-               FIELD_ID + "=" + id, null, null, null, null, null);
-
-
-
-       ProfileModel profile = null;
-
-       if (cursor.moveToNext()) {
+        if (cursor.moveToNext()) {
             profile = cursorToProfile(cursor);
-       }
+        }
 
-       cursor.close();
+        cursor.close();
 
-       if(db.isOpen()){
-           db.close();
-       }
+        if(db.isOpen()){
+            db.close();
+        }
 
+        return profile;
+    }
 
-       return profile;
-   }
+    public static void activateProfile(Context ctx, Long id, boolean overwrite) {
 
-    public static void ActivateProfile(Context ctx, Long id, boolean overwrite) {
+        if (!overwrite && isProfileActive(ctx, id)) { //if profile is already active
+            return;
+        }
 
-        if (!overwrite) {
-            if(isProfileActive(ctx, id)){
-                return;
-            }
+        if(id.equals(ProfileHelper.DEFAUL_PROFILE)){// activating the default profile will activate the profile choosen as default
+            id = getDefaultProfile(ctx);
+        }
+
+        setActiveProfile(ctx, id);
+
+        if(id.equals(ProfileHelper.NO_PROFILE)){//activating no profile will do nothing exept change status notification
+            NotificationsHelper.sendStatusNotify(ctx, true);
+            return;
         }
 
         ProfileModel profile = getProfile(ctx,id);
 
-        if(!profile.active){
-            return;
-        }
-
-        SharedPreferences.Editor sharedPreferenceEditor = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
-        sharedPreferenceEditor.putLong("active_profile", profile.id);
-        sharedPreferenceEditor.apply();
+        //start activating settings
 
         if(profile.bluetooth_active){
             changeBluetoothState(profile.bluetooth);
@@ -473,13 +471,12 @@ public class ProfileHelper {
             changeScreenRotation(ctx, profile.automatic_screen_rotation);
         }
 
-        NotificationsManager.sendStatusNotify(ctx, true);
+        NotificationsHelper.sendStatusNotify(ctx, true);
         Intent intent = new Intent("profile-activated");
         intent.putExtra("id", profile.id);
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(intent);
 
     }
-
 
     private static void changeBluetoothState(int state){
 
@@ -502,7 +499,6 @@ public class ProfileHelper {
             }
         }
     }
-
 
     private static void changeWIFIState(Context ctx, int state){
 
@@ -570,7 +566,6 @@ public class ProfileHelper {
     }
 
 
-
     private static void changeAlarmVolume(Context ctx, int value){
 
         AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
@@ -619,11 +614,9 @@ public class ProfileHelper {
 
     }
 
-
     private static void changeRingtones(Context ctx, Uri uri){
         RingtoneManager.setActualDefaultRingtoneUri(ctx, RingtoneManager.TYPE_RINGTONE, uri);
     }
-
 
     private static void changeNotifications(Context ctx, Uri uri){
         RingtoneManager.setActualDefaultRingtoneUri(ctx, RingtoneManager.TYPE_NOTIFICATION, uri);
@@ -632,17 +625,15 @@ public class ProfileHelper {
     private static void changeAutoBrightness(Context ctx, Boolean value){
 
         if (value) {
-            Settings.System.putInt(ctx.getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+            android.provider.Settings.System.putInt(ctx.getContentResolver(),
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE,
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
         }
         else{
-            Settings.System.putInt(ctx.getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+            android.provider.Settings.System.putInt(ctx.getContentResolver(),
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE,
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
         }
-
-
     }
 
     private static void changeBrightness(Context ctx, int value){
@@ -651,31 +642,31 @@ public class ProfileHelper {
             return;
         }
 
-        Settings.System.putInt(
+        android.provider.Settings.System.putInt(
                 ctx.getContentResolver(),
-                Settings.System.SCREEN_BRIGHTNESS,
+                android.provider.Settings.System.SCREEN_BRIGHTNESS,
                 value*255/100);
 
-        Settings.System.putInt(ctx.getContentResolver(),
-                Settings.System.SCREEN_BRIGHTNESS_MODE,
-                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+        android.provider.Settings.System.putInt(ctx.getContentResolver(),
+                android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE,
+                android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
 
-        Settings.System.putInt(
+        android.provider.Settings.System.putInt(
                 ctx.getContentResolver(),
-                Settings.System.SCREEN_BRIGHTNESS,
+                android.provider.Settings.System.SCREEN_BRIGHTNESS,
                 value*255/100);
 
     }
 
     private static void changeScreenTimeout(Context ctx, int value){
 
-        Settings.System.putInt(ctx.getContentResolver(),
+        android.provider.Settings.System.putInt(ctx.getContentResolver(),
                 Settings.System.SCREEN_OFF_TIMEOUT,
                 value);
     }
 
     private static void changeScreenRotation(Context ctx, int value) {
-        Settings.System.putInt(ctx.getContentResolver(),
+        android.provider.Settings.System.putInt(ctx.getContentResolver(),
                 Settings.System.ACCELEROMETER_ROTATION,
                 value);
     }
@@ -716,6 +707,28 @@ public class ProfileHelper {
                 cursor.getInt(30),
                 cursor.getInt(31)>0
         );
+    }
+
+    public static Long getActiveProfile(Context ctx){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPref.getLong("active_profile", NO_PROFILE);
+    }
+
+    public static void setActiveProfile(Context ctx, Long id){
+        SharedPreferences.Editor sharedPreferenceEditor = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
+        sharedPreferenceEditor.putLong("active_profile", id);
+        sharedPreferenceEditor.apply();
+    }
+
+    public static Long getDefaultProfile(Context ctx){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return Long.valueOf(sharedPref.getString("pref_default_exit_profile", String.valueOf(NO_PROFILE)));
+    }
+
+    public static void setDefaultProfile(Context ctx, Long id){
+        SharedPreferences.Editor sharedPreferenceEditor = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
+        sharedPreferenceEditor.putString("pref_default_exit_profile", String.valueOf(id));
+        sharedPreferenceEditor.apply();
     }
 
     private static int profilesNumber(Context ctx){

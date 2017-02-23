@@ -17,6 +17,8 @@
             <TextView
                 android:id="@+id/profileItemStatus"
                 style="@style/small_text_view"
+                android:maxLines="1"
+                android:ellipsize="end"
                 />
 
         </LinearLayout>

@@ -6,10 +6,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.adapter.ProfileListAdapter;
+import com.alecat.geosettingsopen.helper.AreaHelper;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.R;
+import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
 public class ProfileListActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
-    private ProfileListAdapter mProfileListAdapter;
+    private ProfileListAdapter mProfilesRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +30,15 @@ public class ProfileListActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        List<ProfileModel> profileList = ProfileHelper.getAllProfiles(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.profile_recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mProfileListAdapter = new ProfileListAdapter(this, mRecyclerView, profileList);
-        mRecyclerView.setAdapter(mProfileListAdapter);
+        mProfilesRecyclerAdapter = new ProfileListAdapter(this, mRecyclerView, ProfileHelper.getAllProfiles(this), AreaHelper.getAllArea(this));
+        mRecyclerView.setAdapter(mProfilesRecyclerAdapter);
+
     }
 
     @Override
@@ -48,8 +50,8 @@ public class ProfileListActivity extends BaseActivity {
     private void refresh(){
 
         List<ProfileModel> profileList = ProfileHelper.getAllProfiles(this);
-        mProfileListAdapter = new ProfileListAdapter(this, mRecyclerView, profileList);
-        mRecyclerView.setAdapter(mProfileListAdapter);
+        mProfilesRecyclerAdapter = new ProfileListAdapter(this, mRecyclerView, profileList, AreaHelper.getAllArea(this));
+        mRecyclerView.setAdapter(mProfilesRecyclerAdapter);
 
     }
 

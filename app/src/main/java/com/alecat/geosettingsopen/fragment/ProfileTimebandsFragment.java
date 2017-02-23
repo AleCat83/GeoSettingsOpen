@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
 
 public class ProfileTimebandsFragment extends Fragment {
 

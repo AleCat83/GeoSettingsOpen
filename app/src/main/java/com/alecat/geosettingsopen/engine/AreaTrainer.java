@@ -6,8 +6,8 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 
 import com.alecat.geosettingsopen.helper.AreaHelper;
-import com.alecat.geosettingsopen.model.AreaModel;
-import com.alecat.geosettingsopen.notifications.NotificationsManager;
+import com.alecat.geosettingsopen.models.AreaModel;
+import com.alecat.geosettingsopen.notifications.NotificationsHelper;
 
 public class AreaTrainer {
 
@@ -26,7 +26,7 @@ public class AreaTrainer {
         sharedPrefEditor.putLong("training_stop_time",trainingTime );
         sharedPrefEditor.putLong("training_mode", areaId);
         sharedPrefEditor.apply();
-        NotificationsManager.sendStatusNotify(ctx, true);
+        NotificationsHelper.sendStatusNotify(ctx, true);
     }
 
     public static void stopTraining(Context ctx){
@@ -34,7 +34,7 @@ public class AreaTrainer {
         sharedPrefEditor.putLong("training_mode", -2);
         sharedPrefEditor.putLong("training_stop_time", -1);
         sharedPrefEditor.apply();
-        NotificationsManager.sendStatusNotify(ctx, false);
+        NotificationsHelper.sendStatusNotify(ctx, false);
     }
 
     public static void trainArea(Context ctx, Location location, boolean areaWouldChange){
@@ -68,7 +68,6 @@ public class AreaTrainer {
             }
         }
 
-
         if(trainingArea.training_point_number == 500){//from 499 to 500
             trainingArea.trained = true;
             stopTraining(ctx);
@@ -77,15 +76,6 @@ public class AreaTrainer {
 
         AreaHelper.saveArea(ctx, trainingArea);
 
-
         return;
     }
-
-    /*private static void generateNewAreaGhostBroadcast(Context ctx, Long ghostAreaId){
-        Intent newGhostArea = new Intent("new-ghost-area");
-        Bundle bundle = new Bundle();
-        bundle.putLong("area", ghostAreaId);
-        newGhostArea.putExtras(bundle);
-        LocalBroadcastManager.getInstance(ctx).sendBroadcast(newGhostArea);
-    }*/
 }

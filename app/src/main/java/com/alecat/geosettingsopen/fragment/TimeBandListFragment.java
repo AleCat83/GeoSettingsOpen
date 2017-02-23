@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.adapter.TimebandListAdapter;
 import com.alecat.geosettingsopen.helper.TimebandHelper;
-import com.alecat.geosettingsopen.model.TimebandModel;
+import com.alecat.geosettingsopen.models.TimebandModel;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.nex3z.togglebuttongroup.MultiSelectToggleGroup;

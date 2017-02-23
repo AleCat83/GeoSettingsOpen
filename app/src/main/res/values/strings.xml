@@ -4,9 +4,10 @@
     <!-- General -->
 
     <string name="app_name">GeoSettingsOpen</string>
-    <string name="general_ok">ok</string>
+
     <string name="general_yes">yes</string>
     <string name="general_no">no</string>
+    <string name="general_ok">ok</string>
     <string name="general_action_settings">Options</string>
     <string name="general_cancel">cancel</string>
     <string name="general_saved">Saved</string>
@@ -17,6 +18,8 @@
     <string name="general_are_you_sure">Are you sure?</string>
     <string name="general_error_occurs">Error</string>
     <string name="general_hide">Hide</string>
+    <string name="general_in">in</string>
+    <string name="general_out">out</string>
 
     <string name="days_monday">mon</string>
     <string name="days_sunday">sun</string>
@@ -30,9 +33,11 @@
 
     <string name="profile_profile_label">Profile</string>
     <string name="profile_new_profile">New profile</string>
-    <string name="profile_external_profile_name">External profile</string>
+    <string name="profile_no_profile">No profile</string>
+    <string name="profile_default_profile">Default</string>
+    <string name="profile_external_profile_name">Default profile</string>
     <string name="profile_profile_name">Profile name</string>
-    <string name="profile_profile_active">Active</string>
+    <string name="profile_profile_active">active</string>
     <string name="profile_profile_activate">Enable</string>
     <string name="profile_profile_deactivate">Disable</string>
     <string name="profile_delete_profile_message">The profile and all associated areas will be deleted</string>
@@ -44,6 +49,9 @@
     <string name="profile_tabs_label_time_activation">Times</string>
     <string name="profile_tabs_label_area_activation">Areas</string>
     <string name="profile_tabs_label_display">Display</string>
+    <string name="profile_tabs_label_default">Set as default profile?</string>
+
+
 
     <string name="profile_options_label_brightness">Brightness</string>
     <string name="profile_options_label_wifi">Wifi</string>
@@ -74,6 +82,7 @@
     <string name="profile_options_description_screen_timeout">Screen timeout</string>
     <string name="profile_options_description_automatic_screen_rotation">Screen rotation</string>
     <string name="profile_options_description_alarm_volume">Alarm</string>
+    <string name="profile_options_description_default">If you set the profile as default it will be activated when you exit an area. </string>
 
     <!-- profiles values -->
 
@@ -91,9 +100,10 @@
     <!-- profiles tips -->
 
     <string name="profile_tips_ringtone">Choose a ringtone</string>
+    <string name="profile_no_profile_active">no profile active</string>
     <string name="profile_tips_profile_off">The profile is off</string>
     <string name="profile_tips_profile_do_nothing">No action</string>
-    <string name="profile_tips_no_areas">No areas</string>
+    <string name="profile_tips_no_areas">No areas where activate the profile</string>
     <string name="profile_tips_profile_activabile">Activable</string>
     <string name="profile_tips_airplane_mode_enabled">Airplane mode is on, this will prevent GeoSettings to change profile.</string>
     <string name="profile_tips_system_active">GeoSettings is active</string>
@@ -108,6 +118,7 @@
     <string name="pref_group_label_geolocalizzazione">Geolocalizzation</string>
     <string name="pref_group_label_maps">Maps</string>
     <string name="pref_group_label_messages">Help tips</string>
+    <string name="pref_group_label_profiles">Profiles</string>
 
     <string name="pref_options_label_reset_guide">Show guide</string>
     <string name="pref_options_label_tooltip_enabled">enable tips</string>
@@ -117,12 +128,16 @@
     <string name="pref_options_label_notification_sticky">Notification always active</string>
     <string name="pref_options_label_geolocalization_accuracy">Accuracy</string>
     <string name="pref_options_label_listener_interval">Localization frequency</string>
+    <string name="pref_options_label_default_exit_profile">Default exit profile</string>
+
 
     <string name="pref_options_summary_reset_guide">Show guide again</string>
     <string name="pref_options_summary_listener_interval">Interval between position checks. (warning: can increase battery usage)</string>
     <string name="pref_options_summary_geolocalization_accuracy">Change the geolocalizzation accuracy. (warning: can increase battery usage)</string>
     <string name="pref_options_summary_notifications_sound">Change the profile activation alert sound</string>
     <string name="pref_options_summary_maps_accuracy">Map type in the profile page</string>
+    <string name="pref_options_summary_default_exit_profile">Default profile to activate when exit an area.</string>
+
 
     <string name="pref_options_precision_value_high">high</string>
     <string name="pref_options_precision_value_balanced">balanced</string>
@@ -141,11 +156,12 @@
 
     <string name="area_label_area">Area</string>
     <string name="area_delete_area_message">The area will be deleted</string>
-    <string name="area_external_area_default_name">Esterno</string>
+    <string name="area_external_area_default_name">Outside</string>
     <string name="area_delete_area">Delete the area?</string>
     <string name="area_dialog_first_tab">General</string>
     <string name="area_dialog_second_tab">Time bands</string>
     <string name="area_dialog_third_tab">Training</string>
+    <string name="area_dialog_forth_tab">Area exit</string>
     <string name="area_threshold">Threshold</string>
     <string name="area_latitude">Latitude</string>
     <string name="area_longitude">Longitude</string>
@@ -160,6 +176,8 @@
     <string name="area_label_training">training</string>
     <string name="area_label_select_radius">Choose the raidus value</string>
     <string name="area_label_insert_area_name">Area name</string>
+    <string name="area_label_exit_profile">Profile to activate \n when exit thearea</string>
+    <string name="area_description_exit_profile">Select a profile to activate when you exit the area.</string>
 
     <!-- guide -->
 
@@ -176,10 +194,5 @@
     <string name="guide_message_profile_map_external">The external profile will be activated everywhere except in the other profile\' areas.\nIs not possible to create areas in the external profile.</string>
     <string name="guide_message_training_desc1">During the training mode, GeoSettings checks the received positions and enlarge the radius to include them in the area.</string>
     <string name="guide_message_training_desc2">WARNING: remember to turn off the training mode before exit the area.</string>
-
-    <!-- debug -->
-
-    <string name="debug_action_sharedpref">SharedPref debug</string>
-    <string name="debug_action_database">sql debug</string>
 
 </resources>

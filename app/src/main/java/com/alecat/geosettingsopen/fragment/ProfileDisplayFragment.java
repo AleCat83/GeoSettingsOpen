@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.activity.ProfileListActivity;
 import com.alecat.geosettingsopen.helper.ProfileHelper;
-import com.alecat.geosettingsopen.model.ProfileModel;
+import com.alecat.geosettingsopen.models.ProfileModel;
 
 public class ProfileDisplayFragment extends Fragment {
 
@@ -86,7 +86,7 @@ public class ProfileDisplayFragment extends Fragment {
                 autoBrightnessCheck.setChecked(profile.brightness_automatic);
 
                 builder.setView(dialogView)
-                        .setPositiveButton(ctx.getResources().getString(R.string.general_ok), new DialogInterface.OnClickListener() {
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
 

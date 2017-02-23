@@ -4,23 +4,23 @@
         android:title="@string/pref_group_label_geolocalizzazione"
         android:key="pref_intervals_group">
 
-    <ListPreference
-        android:key="pref_geolocalization_accuracy"
-        android:title="@string/pref_options_label_geolocalization_accuracy"
-        android:entries="@array/geolocalizzation_types_entries"
-        android:entryValues="@array/geolocalizzation_types_types"
-        android:summary="@string/pref_options_summary_geolocalization_accuracy"
-        android:defaultValue="balanced"/>
+        <ListPreference
+            android:key="pref_geolocalization_accuracy"
+            android:title="@string/pref_options_label_geolocalization_accuracy"
+            android:entries="@array/geolocalizzation_types_entries"
+            android:entryValues="@array/geolocalizzation_types_types"
+            android:summary="@string/pref_options_summary_geolocalization_accuracy"
+            android:defaultValue="balanced"/>
 
-    <ListPreference
-        android:key="pref_normal_interval"
-        android:title="@string/pref_options_label_listener_interval"
-        android:entries="@array/geolocalizzation_time_entries"
-        android:entryValues="@array/geolocalizzation_time_values"
+        <ListPreference
+            android:key="pref_normal_interval"
+            android:title="@string/pref_options_label_listener_interval"
+            android:entries="@array/geolocalizzation_time_entries"
+            android:entryValues="@array/geolocalizzation_time_values"
 
-        android:summary="@string/pref_options_summary_listener_interval"
-        android:defaultValue="30"
-        android:inputType="number"/>
+            android:summary="@string/pref_options_summary_listener_interval"
+            android:defaultValue="30"
+            android:inputType="number"/>
 
     </PreferenceCategory>
 
@@ -36,6 +36,20 @@
             android:entryValues="@array/maps_types_types"
             android:summary="@string/pref_options_summary_maps_accuracy"
             android:defaultValue="normal"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_group_label_profiles"
+        android:key="pref_profiles_group">
+
+        <ListPreference
+            android:key="pref_default_exit_profile"
+            android:title="@string/pref_options_label_default_exit_profile"
+            android:entries="@array/maps_types_entries"
+            android:inputType="number"
+            android:summary="@string/pref_options_summary_default_exit_profile"
+            android:defaultValue="0"/>
 
     </PreferenceCategory>
 
@@ -63,6 +77,18 @@
             android:ringtoneType="notification"
             android:defaultValue="DEFAULT_NOTIFICATION_URI"
             android:summary="@string/pref_options_summary_notifications_sound" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/pref_group_label_messages"
+        android:key="pref_guide_group">
+
+        <Preference
+            android:key="reset_guide"
+            android:title="@string/pref_options_label_reset_guide"
+            android:summary="@string/pref_options_summary_reset_guide"/>
 
     </PreferenceCategory>
 

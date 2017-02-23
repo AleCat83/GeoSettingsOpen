@@ -1,5 +1,6 @@
 package com.alecat.geosettingsopen.adapter;
 
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,11 +27,11 @@ public class AreaDialogPageAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: // Fragment # 0 - This will show FirstFragment different title
+            case 0:
                 return DialogAreaGeneralFragment.newInstance(areaID);
-            case 1: // Fragment # 0 - This will show FirstFragment different title
+            case 1:
                 return DialogAreaTimebandsFragment.newInstance(areaID);
-            case 2: // Fragment # 0 - This will show FirstFragment different title
+            case 2:
                 return DialogAreaTrainingFragment.newInstance(areaID);
             default:
                 return null;

@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alecat.geosettingsopen.R;
 import com.alecat.geosettingsopen.helper.AreaHelper;
+import com.alecat.geosettingsopen.R;
 
 public class DialogAreaTimebandsFragment extends Fragment {
 
@@ -45,7 +45,7 @@ public class DialogAreaTimebandsFragment extends Fragment {
         ft.add(R.id.time_band_container, timebandList, "timeband_list");
 
 
-        AreaHelper.activableBytime(getContext(), mAreaID);
+        AreaHelper.activableByTime(getContext(), mAreaID);
         ft.commit();
     }
 }
