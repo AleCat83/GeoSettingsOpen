@@ -530,39 +530,36 @@ public class ProfileHelper {
 
     private static void changeSoundProfile(Context ctx, int state){
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-            if(!notificationManager.isNotificationPolicyAccessGranted()){
-                return;
+        if (hasSoundPermission(ctx)) {
+
+            final AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
+
+            switch (state) {
+                case 0:
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                    break;
+                case 1:
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+                    break;
+                case 2:
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                    break;
             }
         }
-
-        final AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
-
-        switch(state){
-            case 0:
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                break;
-            case 1:
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-                break;
-            case 2:
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                break;
-        }
-
     }
 
     private static void changeRingtonesVolume(Context ctx,int value){
 
-        AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
+        if (hasSoundPermission(ctx)) {
 
-        int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_RING);
+            AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
 
-        int volume = maxVolume*value/100;
+            int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_RING);
 
-        manager.setStreamVolume(AudioManager.STREAM_RING, volume, 0);
+            int volume = maxVolume * value / 100;
 
+            manager.setStreamVolume(AudioManager.STREAM_RING, volume, 0);
+        }
     }
 
 
@@ -580,14 +577,16 @@ public class ProfileHelper {
 
     private static void changeNotificationsVolume(Context ctx, int value){
 
-        AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
+        if (hasSoundPermission(ctx)) {
 
-        int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION);
+            AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
 
-        int volume = maxVolume*value/100;
+            int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION);
 
-        manager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, volume, 0);
+            int volume = maxVolume * value / 100;
 
+            manager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, volume, 0);
+        }
     }
 
     private static void changeMediaVolume(Context ctx, int value){
@@ -604,13 +603,16 @@ public class ProfileHelper {
 
     private static void changeFeedbackVolume(Context ctx, int value){
 
-        AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
+        if (hasSoundPermission(ctx)) {
 
-        int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
+            AudioManager manager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
 
-        int volume = maxVolume*value/100;
+            int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
 
-        manager.setStreamVolume(AudioManager.STREAM_SYSTEM, volume, 0);
+            int volume = maxVolume * value / 100;
+
+            manager.setStreamVolume(AudioManager.STREAM_SYSTEM, volume, 0);
+        }
 
     }
 
@@ -734,5 +736,21 @@ public class ProfileHelper {
     private static int profilesNumber(Context ctx){
         return getAllProfiles(ctx).size();
     }
+
+    private static boolean hasSoundPermission(Context ctx){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            NotificationManager mNotificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (!mNotificationManager.isNotificationPolicyAccessGranted()) {
+                return false;
+            }else{
+                return true;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+
 
 }

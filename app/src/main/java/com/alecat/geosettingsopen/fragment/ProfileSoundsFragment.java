@@ -116,59 +116,65 @@ public class ProfileSoundsFragment extends Fragment {
 
         RelativeLayout volumesTableLayout = (RelativeLayout) mView.findViewById(R.id.profile_volumes_container);
 
+
+
         volumesTableLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(hasSoundPermission()) {
+                    ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
-                ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_profile_sounds_volumes, null);
 
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.dialog_profile_sounds_volumes, null);
+                    SeekBar notificationsVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_notifications_volume_value);
+                    notificationsVolumeSeekbar.setProgress(profile.notifications_volume);
 
-                SeekBar notificationsVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_notifications_volume_value);
-                notificationsVolumeSeekbar.setProgress(profile.notifications_volume);
+                    SeekBar ringtonesVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_ringtones_volume_value);
+                    ringtonesVolumeSeekbar.setProgress(profile.ringtones_volume);
 
-                SeekBar ringtonesVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_ringtones_volume_value);
-                ringtonesVolumeSeekbar.setProgress(profile.ringtones_volume);
+                    SeekBar mediaVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_media_volume_value);
+                    mediaVolumeSeekbar.setProgress(profile.media_volume);
 
-                SeekBar mediaVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_media_volume_value);
-                mediaVolumeSeekbar.setProgress(profile.media_volume);
+                    SeekBar feedbackVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_feedback_volume_value);
+                    feedbackVolumeSeekbar.setProgress(profile.feedback_volume);
 
-                SeekBar feedbackVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_feedback_volume_value);
-                feedbackVolumeSeekbar.setProgress(profile.feedback_volume);
-
-                /*SeekBar alarmVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_alarm_volume_value);
-                alarmVolumeSeekbar.setProgress(profile.alarm_volume);*/
+                    /*SeekBar alarmVolumeSeekbar = (SeekBar) dialogView.findViewById(R.id.profile_alarm_volume_value);
+                    alarmVolumeSeekbar.setProgress(profile.alarm_volume);*/
 
 
-                builder.setView(dialogView)
-                        .setPositiveButton(ctx.getResources().getString(R.string.general_ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
+                    builder.setView(dialogView)
+                            .setPositiveButton(ctx.getResources().getString(R.string.general_ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
 
-                                AlertDialog resultsDialog = (AlertDialog) dialog;
-                                SeekBar notificationsVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_notifications_volume_value);
-                                SeekBar ringtonesVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_ringtones_volume_value);
-                                SeekBar mediaVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_media_volume_value);
-                                SeekBar feedbackVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_feedback_volume_value);
+                                    AlertDialog resultsDialog = (AlertDialog) dialog;
+                                    SeekBar notificationsVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_notifications_volume_value);
+                                    SeekBar ringtonesVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_ringtones_volume_value);
+                                    SeekBar mediaVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_media_volume_value);
+                                    SeekBar feedbackVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_feedback_volume_value);
 
-                                //SeekBar alarmVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_alarm_volume_value);
+                                    //SeekBar alarmVolumeSeekbar = (SeekBar) resultsDialog.findViewById(R.id.profile_alarm_volume_value);
 
-                                saveVolumes(ringtonesVolumeSeekbar.getProgress(),
-                                        notificationsVolumeSeekbar.getProgress(),
-                                        mediaVolumeSeekbar.getProgress(),
-                                        feedbackVolumeSeekbar.getProgress());
-                                //alarmVolumeSeekbar.getProgress());
-                            }
-                        })
-                        .setNegativeButton(ctx.getResources().getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                                    saveVolumes(ringtonesVolumeSeekbar.getProgress(),
+                                            notificationsVolumeSeekbar.getProgress(),
+                                            mediaVolumeSeekbar.getProgress(),
+                                            feedbackVolumeSeekbar.getProgress());
+                                    //alarmVolumeSeekbar.getProgress());
+                                }
+                            })
+                            .setNegativeButton(ctx.getResources().getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else{
+                    askSoundPermission();
+                }
             }
         });
 
@@ -182,6 +188,8 @@ public class ProfileSoundsFragment extends Fragment {
                 saveVolumesActive(isChecked);
             }
         });
+
+
 
         setVolumesVisual();
 
@@ -504,5 +512,27 @@ public class ProfileSoundsFragment extends Fragment {
                 saveNotification(notificationUri);
             }
         }
+    }
+
+
+
+    private boolean hasSoundPermission(){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            if (!mNotificationManager.isNotificationPolicyAccessGranted()) {
+                return false;
+            }else{
+                return true;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+
+    private void askSoundPermission(){
+        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+        startActivity(intent);
     }
 }
