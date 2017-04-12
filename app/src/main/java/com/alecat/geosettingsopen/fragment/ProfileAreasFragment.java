@@ -94,12 +94,12 @@ public class ProfileAreasFragment extends Fragment implements OnMapReadyCallback
 
                 Bundle bundle = intent.getExtras();
 
-
                 AreaModel areaModel = AreaHelper.getArea(context, (Long) bundle.get("area_id"));
 
-                deleteAreaMarker(areaModel.id);
+                if(areaModel != null){ //not sure how areaModel can be null at this point mut it happened, investigating
 
-                if(areaModel.profile_id.equals(mProfileID)){
+                    deleteAreaMarker(areaModel.id);
+
                     addAreaOnMap(areaModel);
                 }
             }
