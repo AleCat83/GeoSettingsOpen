@@ -52,7 +52,7 @@ public class LocationService extends Service implements
     @Override
 
     public void onDestroy() {
-        if (mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mLocationListener);
             mGoogleApiClient.disconnect();
             log("geosettings-debug: servizio annullato.");

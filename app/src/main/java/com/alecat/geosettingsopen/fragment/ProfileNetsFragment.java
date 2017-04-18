@@ -142,6 +142,10 @@ public class ProfileNetsFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.wifi = value;
 
         ProfileHelper.saveProfile(getContext(), profile);
@@ -152,7 +156,12 @@ public class ProfileNetsFragment extends Fragment {
 
 
     private void saveWIFIActive(Boolean value){
+
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         profile.wifi_active = value;
         ProfileHelper.saveProfile(getContext(), profile);
@@ -166,6 +175,10 @@ public class ProfileNetsFragment extends Fragment {
     private void setWIFIVisual(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String value = "";
         if(profile.wifi_active){
@@ -188,6 +201,10 @@ public class ProfileNetsFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.bluetooth = value;
 
         ProfileHelper.saveProfile(getContext(), profile);
@@ -198,7 +215,12 @@ public class ProfileNetsFragment extends Fragment {
 
 
     private void saveBluetoothActive(Boolean value){
+
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         profile.bluetooth_active = value;
         ProfileHelper.saveProfile(getContext(), profile);
@@ -213,6 +235,10 @@ public class ProfileNetsFragment extends Fragment {
     private void setBluetoothVisual(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String value = "";
 

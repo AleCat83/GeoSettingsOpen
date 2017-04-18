@@ -64,7 +64,9 @@ public class ChangeManager  {
         }
         else{
             AreaModel areaModel = AreaHelper.getArea(mContext, areaId);
-            ProfileHelper.activateProfile(mContext, areaModel.exit_profile, false);//sperimentale
+            if(areaModel != null) {//check further
+                ProfileHelper.activateProfile(mContext, areaModel.exit_profile, false);//sperimentale
+            }
         }
 
     }

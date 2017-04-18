@@ -208,6 +208,10 @@ public class ProfileDisplayFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(ctx,mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.brightness_level = level;
         profile.brightness_automatic = automatic;
         ProfileHelper.saveProfile(ctx, profile);
@@ -220,6 +224,10 @@ public class ProfileDisplayFragment extends Fragment {
         Context ctx = getContext();
 
         ProfileModel profile = ProfileHelper.getProfile(ctx,mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         profile.brightness_active = value;
         ProfileHelper.saveProfile(ctx, profile);
@@ -236,6 +244,10 @@ public class ProfileDisplayFragment extends Fragment {
         Context ctx = getContext();
 
         ProfileModel profile = ProfileHelper.getProfile(ctx, mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         TextView textView = (TextView) mView.findViewById(R.id.profile_brightness_value);
 
@@ -258,6 +270,10 @@ public class ProfileDisplayFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(ctx, mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.automatic_screen_rotation = value;
         ProfileHelper.saveProfile(ctx, profile);
 
@@ -272,6 +288,10 @@ public class ProfileDisplayFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(ctx, mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.automatic_screen_rotation_active = value;
         ProfileHelper.saveProfile(ctx, profile);
 
@@ -285,6 +305,10 @@ public class ProfileDisplayFragment extends Fragment {
     private void setAutomaticScreenRotationVisual(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String value = "";
 
@@ -309,6 +333,10 @@ public class ProfileDisplayFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(ctx, mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.screen_timeout = value;
         ProfileHelper.saveProfile(ctx, profile);
 
@@ -321,6 +349,10 @@ public class ProfileDisplayFragment extends Fragment {
         Context ctx = getContext();
 
         ProfileModel profile = ProfileHelper.getProfile(ctx,mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         profile.screen_timeout_active = value;
         ProfileHelper.saveProfile(ctx,profile);
@@ -338,6 +370,10 @@ public class ProfileDisplayFragment extends Fragment {
         Context ctx = getContext();
 
         ProfileModel profile = ProfileHelper.getProfile(ctx, mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String[] timeoutLabels = getResources().getStringArray(R.array.screen_timeout_labels);
 

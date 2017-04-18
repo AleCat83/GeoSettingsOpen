@@ -221,7 +221,9 @@ public class BaseActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startService();
                 } else {
-                    mMasterSwitch.setChecked(false);
+                    if(mMasterSwitch != null) {
+                        mMasterSwitch.setChecked(false);
+                    }
                 }
                 break;
             default:

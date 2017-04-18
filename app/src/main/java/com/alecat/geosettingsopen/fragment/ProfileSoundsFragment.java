@@ -262,7 +262,11 @@ public class ProfileSoundsFragment extends Fragment {
 
     private void setSoundProfileVisual(){
 
-        final ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String[] soundProfileLabels = getResources().getStringArray(R.array.soundprofile_values);
 
@@ -276,8 +280,11 @@ public class ProfileSoundsFragment extends Fragment {
 
     private void saveSoundProfile(int indexOfSelected){
 
+        ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
-        final ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+        if(profile == null){
+            return;
+        }
 
         profile.soundprofile = indexOfSelected;
         ProfileHelper.saveProfile(getContext(), profile);
@@ -288,6 +295,10 @@ public class ProfileSoundsFragment extends Fragment {
     private void saveSoundProfileActive(Boolean value){
 
         final ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         profile.soundprofile_active = value;
         ProfileHelper.saveProfile(getContext(), profile);
@@ -303,9 +314,11 @@ public class ProfileSoundsFragment extends Fragment {
 
     private void saveVolumes(int ringtones, int notifications, int media, int feedbacks/*, int alarm*/){
 
-
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
+        if(profile == null){
+            return;
+        }
 
         profile.ringtones_volume = ringtones;
         profile.notifications_volume = notifications;
@@ -323,6 +336,10 @@ public class ProfileSoundsFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.volumes_active = value;
         ProfileHelper.saveProfile(getContext(),profile);
 
@@ -338,6 +355,10 @@ public class ProfileSoundsFragment extends Fragment {
     private void setVolumesVisual(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String value = "";
 
@@ -365,6 +386,11 @@ public class ProfileSoundsFragment extends Fragment {
     private void saveRingtone(Uri ringtoneUri){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
+
         profile.ringtones_uri = ringtoneUri.toString();
         ProfileHelper.saveProfile(getContext(), profile);
         saveRingtonesUriActive(true);
@@ -374,6 +400,10 @@ public class ProfileSoundsFragment extends Fragment {
     private void saveRingtonesUriActive(Boolean value){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         profile.ringtones_uri_active = value;
         ProfileHelper.saveProfile(getContext(),profile);
@@ -388,6 +418,10 @@ public class ProfileSoundsFragment extends Fragment {
     private void setRingtoneVisual(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String ringtonesTitle = "";
 
@@ -407,6 +441,10 @@ public class ProfileSoundsFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         profile.notifications_uri = notificationUri.toString();
         ProfileHelper.saveProfile(getContext(),profile);
 
@@ -417,6 +455,10 @@ public class ProfileSoundsFragment extends Fragment {
     private void saveNotificationsUriActive(Boolean value){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         profile.notifications_uri_active = value;
         ProfileHelper.saveProfile(getContext(),profile);
@@ -430,6 +472,10 @@ public class ProfileSoundsFragment extends Fragment {
     private void setNotificationsVisual(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         String ringtonesTitle = "";
 
@@ -452,6 +498,10 @@ public class ProfileSoundsFragment extends Fragment {
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
 
+        if(profile == null){
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 
         builder.setTitle(R.string.profile_options_label_soundprofile)
@@ -471,8 +521,11 @@ public class ProfileSoundsFragment extends Fragment {
 
     public void chooseRingtone(){
 
-
         ProfileModel profile = ProfileHelper.getProfile(getContext(), mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.profile_tips_ringtone);
@@ -487,6 +540,10 @@ public class ProfileSoundsFragment extends Fragment {
     public void chooseNotificationSound(){
 
         ProfileModel profile = ProfileHelper.getProfile(getContext(),mProfileID);
+
+        if(profile == null){
+            return;
+        }
 
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.profile_options_label_notifications_uri);

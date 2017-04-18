@@ -132,6 +132,10 @@ public class ProfileActivity extends BaseActivity {
 
         ProfileSoundsFragment soundFragment = adapterViewPager.getSoundFragment();
 
+        if(soundFragment == null){
+            return;
+        }
+
         switch (requestCode) {
             case ProfileSoundsFragment.PERMISSION_REQUEST_WRITE_STORAGE_RINGTONE: {
                 if (grantResults.length > 0
